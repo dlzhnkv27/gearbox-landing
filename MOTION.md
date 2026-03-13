@@ -95,15 +95,15 @@
   - Desktop: `180px`
   - Tablet: `130px`
   - Mobile: `138px`
-- Extra height at progress `1`: `100%` of the current hero height
-- Top stop alpha: `0 -> 0.6`
-- Bottom stop alpha: `0.96 -> 1`
+- Extra height mapping: every `10%` scroll progress adds `30%` of hero height
+- Extra height at progress `1`: `300%` of the current hero height
+- Gradient opacity stays static:
+  - top stop: `0`
+  - bottom stop: `0.96`
 
 ### Behavior rules
 - Downward scroll: increase shade height smoothly as progress grows.
 - Upward scroll: reduce shade height smoothly as progress decreases.
-- Downward scroll: also raise the top stop opacity and deepen the bottom stop opacity continuously with the same linear progress.
-- Upward scroll: return both stop opacities smoothly to their base values.
 - The top edge of the shade may extend beyond the original image area; the visible result stays clipped by the hero surface.
 - Under `prefers-reduced-motion: reduce`, keep the shade at its base height with no scroll response.
 
