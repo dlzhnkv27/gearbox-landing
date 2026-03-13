@@ -87,8 +87,14 @@ const setScrollDirection = () => {
 window.addEventListener("scroll", setScrollDirection, { passive: true });
 
 if (motionGroups.length > 0 || motionBlocks.length > 0) {
-  const pendingItems = [];
-  const pendingBlocks = [];
+  const observedItems = [];
+  const observedBlocks = [];
+
+  const resetMotionTarget = ({ element, content }) => {
+    element.dataset.motionState = "pending";
+    content.classList.add("is-motion-pending");
+    content.classList.remove("is-motion-visible", "is-motion-revealing");
+  };
 
   const revealMotionTarget = ({ element, content, delay = 0 }, animated) => {
     if (element.dataset.motionState === "revealed") {
@@ -96,9 +102,11 @@ if (motionGroups.length > 0 || motionBlocks.length > 0) {
     }
 
     element.dataset.motionState = "revealed";
+    content.classList.add("is-motion-pending");
 
     if (!animated) {
       content.classList.add("is-motion-visible");
+      content.classList.remove("is-motion-revealing");
       return;
     }
 
@@ -128,11 +136,11 @@ if (motionGroups.length > 0 || motionBlocks.length > 0) {
       if (prefersReducedMotion.matches || isAboveViewport || isAlreadyVisible) {
         item.dataset.motionState = "revealed";
         content.classList.add("is-motion-visible");
-        return;
+      } else {
+        resetMotionTarget({ element: item, content });
       }
 
-      content.classList.add("is-motion-pending");
-      pendingItems.push({
+      observedItems.push({
         item,
         content,
         threshold,
@@ -156,23 +164,19 @@ if (motionGroups.length > 0 || motionBlocks.length > 0) {
     if (prefersReducedMotion.matches || isAboveViewport || isAlreadyVisible) {
       block.dataset.motionState = "revealed";
       content.classList.add("is-motion-visible");
-      return;
+    } else {
+      resetMotionTarget({ element: block, content });
     }
 
-    content.classList.add("is-motion-pending");
-    pendingBlocks.push({ block, content, requiredVisible });
+    observedBlocks.push({ block, content, requiredVisible });
   });
 
   document.documentElement.classList.add("motion-ready");
 
-  if (!prefersReducedMotion.matches && pendingItems.length > 0) {
+  if (!prefersReducedMotion.matches && observedItems.length > 0) {
     const motionObserver = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting || entry.intersectionRatio < Number.parseFloat(entry.target.dataset.motionThreshold || "0.5")) {
-            return;
-          }
-
           const item = entry.target;
           const content = item.matches("[data-motion-content]") ? item : item.querySelector("[data-motion-content]");
 
@@ -181,38 +185,47 @@ if (motionGroups.length > 0 || motionBlocks.length > 0) {
             return;
           }
 
+          if (!entry.isIntersecting) {
+            resetMotionTarget({ element: item, content });
+            return;
+          }
+
+          if (entry.intersectionRatio < Number.parseFloat(item.dataset.motionThreshold || "0.5")) {
+            return;
+          }
+
           const delay = Number.parseInt(item.dataset.motionDelay || "0", 10);
           const shouldAnimate = scrollDirection === "down";
 
           revealMotionTarget({ element: item, content, delay }, shouldAnimate);
-          observer.unobserve(item);
         });
       },
       {
-        threshold: [0.5],
+        threshold: [0, 0.5],
       },
     );
 
-    pendingItems.forEach(({ item, threshold, delay }) => {
+    observedItems.forEach(({ item, threshold, delay }) => {
       item.dataset.motionThreshold = String(threshold);
       item.dataset.motionDelay = String(delay);
       motionObserver.observe(item);
     });
   }
 
-  if (!prefersReducedMotion.matches && pendingBlocks.length > 0) {
+  if (!prefersReducedMotion.matches && observedBlocks.length > 0) {
     const blockObserver = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) {
-            return;
-          }
-
           const block = entry.target;
           const content = block.matches("[data-motion-content]") ? block : block.querySelector("[data-motion-content]");
 
           if (!content) {
             observer.unobserve(block);
+            return;
+          }
+
+          if (!entry.isIntersecting) {
+            resetMotionTarget({ element: block, content });
             return;
           }
 
@@ -223,7 +236,6 @@ if (motionGroups.length > 0 || motionBlocks.length > 0) {
           }
 
           revealMotionTarget({ element: block, content }, scrollDirection === "down");
-          observer.unobserve(block);
         });
       },
       {
@@ -231,7 +243,7 @@ if (motionGroups.length > 0 || motionBlocks.length > 0) {
       },
     );
 
-    pendingBlocks.forEach(({ block, requiredVisible }) => {
+    observedBlocks.forEach(({ block, requiredVisible }) => {
       block.dataset.motionRequiredVisible = String(requiredVisible);
       blockObserver.observe(block);
     });

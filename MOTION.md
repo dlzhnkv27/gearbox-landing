@@ -7,7 +7,7 @@
 
 ## Principles
 - Motion must support hierarchy, not decorate randomly.
-- Entrance animations should be one-time by default.
+- Entrance animations should replay only on downward re-entry when the pattern explicitly calls for scroll-based reveal.
 - If an element enters the viewport while the user scrolls upward, it should appear in its final state without replaying the reveal.
 - Respect `prefers-reduced-motion: reduce` by revealing content without movement.
 - Reuse data-attribute hooks before introducing component-specific JS.
@@ -28,10 +28,10 @@
   - Mobile: `10px`
 
 ### Behavior rules
-- Downward entry: animate once with move-up + fade-in.
+- Downward entry: animate with move-up + fade-in on every new re-entry.
 - In `stats-strip`, the animated target is the whole `stat-pill`, not only the inner copy.
 - Upward entry: reveal instantly with no animation.
-- After reveal: keep the final visible state and do not reset on reverse scroll.
+- After the element leaves the viewport, reset it so the next downward re-entry can animate again.
 
 ## Section Reveal Pattern
 - Block hook: `[data-motion-block]`
@@ -55,9 +55,9 @@
   - Mobile: `18px`
 
 ### Behavior rules
-- Downward entry: reveal the whole block at once.
+- Downward entry: reveal the whole block at once on every new re-entry.
 - Upward entry: show the block immediately in its final state.
-- After reveal: keep the final visible state and do not reset on reverse scroll.
+- After the block leaves the viewport, reset it so the next downward re-entry can animate again.
 
 ## Hover Expansion Pattern
 - Reference: buttons
