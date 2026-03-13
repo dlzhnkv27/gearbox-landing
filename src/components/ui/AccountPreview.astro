@@ -10,9 +10,39 @@ const { className = "" } = Astro.props;
         <span class="preview-title">User Account</span>
         <div class="preview-tabs">
           <span class="preview-tab preview-tab-debt">
+            <svg
+              class="preview-tab-shape"
+              viewBox="0 0 187.6 54"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path
+                class="preview-tab-fill"
+                d="M187.6 0V54H70.5996C37.5857 54 9.6229 32.3804 0.092892 2.52701C-0.309872 1.26532 0.648632 0 1.97304 0H187.6Z"
+              />
+              <path
+                class="preview-tab-stroke preview-tab-stroke-debt"
+                d="M0.092892 2.52701C9.6229 32.3804 37.5857 54 70.5996 54H187.6"
+              />
+            </svg>
             <span class="preview-tab-label preview-tab-label-debt">Debt</span>
           </span>
           <span class="preview-tab preview-tab-collateral">
+            <svg
+              class="preview-tab-shape"
+              viewBox="0 0 187.6 54"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path
+                class="preview-tab-fill"
+                d="M185.627 0C186.951 0 187.909 1.26532 187.507 2.52701C177.977 32.3804 150.014 54 117 54H0V0H185.627Z"
+              />
+              <path
+                class="preview-tab-stroke preview-tab-stroke-collateral"
+                d="M0 54H117C150.014 54 177.977 32.3804 187.507 2.52701"
+              />
+            </svg>
             <span class="preview-tab-label preview-tab-label-collateral">Collateral</span>
           </span>
         </div>

@@ -214,4 +214,5 @@ Landing/
 - `Identified Person` must stay on one line and be centered both horizontally and vertically inside its pill.
 - `User Account` desktop label should use the Figma desktop coordinates from `Credit_Account_Preview` (`left: 129px; top: 53px`).
 - Desktop tab labels should follow Figma coordinates inside their tab containers (`Debt left: 68px; top: 17px`, `Collateral left: 62px; top: 17px` in the current swapped layout).
+- Curved tab accent lines must be rendered as inline SVG paths, not stretched background SVGs, to avoid pixelation on the scheme.
 - `Eligibility Check` desktop label should use the Figma desktop coordinates inside its row (`left: 82px; top: 0`).
