@@ -22,6 +22,7 @@ Use this pattern before changing the desktop hero image, its overflow behavior, 
 - Asset: `public/assets/hero/hero-cityscape@2x.png`
 - Rendered desktop width: `1400px`
 - Overhang height: `93px`
+- Lower shade overlay base height: `180px`
 - Text box width: `934px`
 - Text box right inset: `80px`
 - At `1400px` hero width this produces a `386px` left inset; as the viewport narrows, that left inset is consumed before the text box starts shrinking.
@@ -29,6 +30,11 @@ Use this pattern before changing the desktop hero image, its overflow behavior, 
 - Hero card keeps `border-radius` on the main surface only.
 - `hero-overhang` sits above the card and shows only the top strip.
 - `hero-image-base` is fixed to `right: 0` and `bottom: 0`.
+- `hero-shade` is scroll-driven: its bottom stays fixed while its top edge rises smoothly as page scroll progresses.
+- Current shade mapping is linear:
+  - progress `0` → extra height `0%` of hero height
+  - progress `1` → extra height `100%` of hero height
+- Progress is derived from page scroll distance relative to the current hero height, so the gradient can visually extend beyond the image bounds while remaining clipped by the hero surface.
 - Because the rendered width stays fixed at `1400px`, narrowing the window crops the image from the left while the right edge stays locked.
 
 ### Why It Is Split Into Two Layers
@@ -43,6 +49,7 @@ Use this pattern before changing the desktop hero image, its overflow behavior, 
 ### When To Reopen This File
 - Before changing hero height, image crop, or image anchoring.
 - Before changing topbar/hero stacking order.
+- Before changing the scroll-driven lower gradient or its progress mapping.
 - Before replacing the hero asset with a different aspect ratio.
 - Before reworking border-radius or overflow behavior in the hero section.
 

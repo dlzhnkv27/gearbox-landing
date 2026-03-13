@@ -33,12 +33,12 @@ Landing/
 ## Documentation Sync
 - Update `CLAUDE.md` after structural changes to pages, components, styling source of truth, or project conventions.
 - Update [`MOTION.md`](./MOTION.md) after changing reveal timing, hover motion, stagger rules, or animation patterns.
-- Update [`layout.md`](./layout.md) after changing hero composition, footer underlay behavior, overflow behavior, anchored media rules, or other layout patterns that are meant to be reused.
+- Update [`layout.md`](./layout.md) after changing hero composition, hero scroll-driven shade behavior, footer underlay behavior, overflow behavior, anchored media rules, or other layout patterns that are meant to be reused.
 - Keep documentation aligned with the implemented state, not the previous design discussion.
 
 ## Reference Docs
 - [`MOTION.md`](./MOTION.md) — open this before adding or changing scroll reveals, staggered entrances, hover motion, or marquee loops. Use it for motion principles, current timing values, and reusable data-attribute patterns.
-- [`layout.md`](./layout.md) — open this before changing hero overflow, footer underlay/full-bleed behavior, anchored media behavior, topbar/hero stacking, or desktop image cropping rules.
+- [`layout.md`](./layout.md) — open this before changing hero overflow, hero scroll-driven shade behavior, footer underlay/full-bleed behavior, anchored media behavior, topbar/hero stacking, or desktop image cropping rules.
 
 ## Figma Source
 - **File**: "Gearbox Landing 12" (Figma Desktop MCP)
@@ -204,6 +204,7 @@ Landing/
 ## When to Use Layout Reference
 - Open [`layout.md`](./layout.md) before changing the desktop hero image behavior.
 - Open [`layout.md`](./layout.md) before touching protruding media, right-anchored crops, or hero/topbar layer order.
+- Open [`layout.md`](./layout.md) before changing the lower hero gradient, its scroll mapping, or the way the shade grows with scroll.
 - Open [`layout.md`](./layout.md) before changing the footer background termination, full-bleed underlay, or bottom-of-page color treatment.
 - Reuse the documented desktop hero pattern unless the design explicitly requires a different composition.
 

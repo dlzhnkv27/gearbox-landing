@@ -2,6 +2,40 @@ const menuToggle = document.getElementById("menu-toggle");
 const menuClose = document.getElementById("menu-close");
 const mobileMenu = document.getElementById("mobile-menu");
 const menuLinks = mobileMenu ? mobileMenu.querySelectorAll("a") : [];
+const heroCard = document.querySelector(".hero-card");
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+let heroShadeFrame = 0;
+
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+const updateHeroShade = () => {
+  if (!heroCard) {
+    return;
+  }
+
+  if (prefersReducedMotion.matches) {
+    heroCard.style.setProperty("--hero-shade-progress", "0");
+    heroCard.style.setProperty("--hero-shade-extra-height", "0px");
+    return;
+  }
+
+  const heroHeight = Math.max(heroCard.offsetHeight, 1);
+  const progress = clamp(window.scrollY / heroHeight, 0, 1);
+
+  heroCard.style.setProperty("--hero-shade-progress", progress.toFixed(4));
+  heroCard.style.setProperty("--hero-shade-extra-height", `${(heroHeight * progress).toFixed(2)}px`);
+};
+
+const scheduleHeroShadeUpdate = () => {
+  if (!heroCard || heroShadeFrame) {
+    return;
+  }
+
+  heroShadeFrame = window.requestAnimationFrame(() => {
+    heroShadeFrame = 0;
+    updateHeroShade();
+  });
+};
 
 const closeMenu = () => {
   if (!menuToggle || !mobileMenu) {
@@ -52,7 +86,6 @@ window.addEventListener("keydown", (event) => {
 
 const motionGroups = Array.from(document.querySelectorAll("[data-motion-group]"));
 const motionBlocks = Array.from(document.querySelectorAll("[data-motion-block]"));
-const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let lastScrollY = window.scrollY;
 let scrollDirection = "down";
 
@@ -82,9 +115,13 @@ const setScrollDirection = () => {
   }
 
   lastScrollY = nextScrollY;
+  scheduleHeroShadeUpdate();
 };
 
 window.addEventListener("scroll", setScrollDirection, { passive: true });
+window.addEventListener("resize", scheduleHeroShadeUpdate);
+prefersReducedMotion.addEventListener("change", scheduleHeroShadeUpdate);
+scheduleHeroShadeUpdate();
 
 if (motionGroups.length > 0 || motionBlocks.length > 0) {
   const observedItems = [];
