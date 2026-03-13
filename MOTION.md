@@ -3,12 +3,13 @@
 ## When to open this file
 - Open this file before adding any new scroll reveal, staggered entrance, hover motion, or looping marquee animation.
 - Use it when a component needs motion behavior that should stay consistent with the existing site.
-- Check it before changing durations, easing, or reveal rules in `public/app.js` or `src/styles/global.css`.
+- Check it before changing durations, easing, reveal rules, or scroll-driven visual responses in `public/app.js` or `src/styles/global.css`.
 
 ## Principles
 - Motion must support hierarchy, not decorate randomly.
 - Entrance animations should replay only on downward re-entry when the pattern explicitly calls for scroll-based reveal.
 - If an element enters the viewport while the user scrolls upward, it should appear in its final state without replaying the reveal.
+- Scroll-driven visual responses should be continuous unless a design explicitly calls for discrete steps.
 - Respect `prefers-reduced-motion: reduce` by revealing content without movement.
 - Reuse data-attribute hooks before introducing component-specific JS.
 
@@ -81,6 +82,30 @@
 - Apply a soft edge fade on the marquee viewport so logos do not hard-cut at the left and right edges.
 - Current edge fade: `32px` per side.
 - Disable the animation under `prefers-reduced-motion: reduce`.
+
+## Scroll-Driven Shade Pattern
+- Reference: bottom gradient in `hero`
+- Use a continuous scroll-progress value, not stepped thresholds.
+- Keep the shade anchored to the bottom edge of the component and grow it upward.
+
+### Current reference settings
+- Progress source: `window.scrollY / hero height`
+- Progress clamp: `0..1`
+- Base height:
+  - Desktop: `180px`
+  - Tablet: `130px`
+  - Mobile: `138px`
+- Extra height at progress `1`: `100%` of the current hero height
+- Top stop alpha: `0 -> 0.6`
+- Bottom stop alpha: `0.96 -> 1`
+
+### Behavior rules
+- Downward scroll: increase shade height smoothly as progress grows.
+- Upward scroll: reduce shade height smoothly as progress decreases.
+- Downward scroll: also raise the top stop opacity and deepen the bottom stop opacity continuously with the same linear progress.
+- Upward scroll: return both stop opacities smoothly to their base values.
+- The top edge of the shade may extend beyond the original image area; the visible result stays clipped by the hero surface.
+- Under `prefers-reduced-motion: reduce`, keep the shade at its base height with no scroll response.
 
 ## Implementation Rule
 - If a new motion request matches one of these patterns, extend the existing hooks and timing tokens instead of inventing a new custom animation model.

@@ -34,6 +34,9 @@ Use this pattern before changing the desktop hero image, its overflow behavior, 
 - Current shade mapping is linear:
   - progress `0` → extra height `0%` of hero height
   - progress `1` → extra height `100%` of hero height
+- Shade opacity stops also remap linearly with the same progress:
+  - top stop `0 -> 0.6`
+  - bottom stop `0.96 -> 1`
 - Progress is derived from page scroll distance relative to the current hero height, so the gradient can visually extend beyond the image bounds while remaining clipped by the hero surface.
 - Because the rendered width stays fixed at `1400px`, narrowing the window crops the image from the left while the right edge stays locked.
 

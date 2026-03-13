@@ -205,6 +205,7 @@ Landing/
 - Open [`layout.md`](./layout.md) before changing the desktop hero image behavior.
 - Open [`layout.md`](./layout.md) before touching protruding media, right-anchored crops, or hero/topbar layer order.
 - Open [`layout.md`](./layout.md) before changing the lower hero gradient, its scroll mapping, or the way the shade grows with scroll.
+- Hero shade changes must keep height growth and opacity-stop remapping documented together, since they are one scroll-driven pattern.
 - Open [`layout.md`](./layout.md) before changing the footer background termination, full-bleed underlay, or bottom-of-page color treatment.
 - Reuse the documented desktop hero pattern unless the design explicitly requires a different composition.
 
