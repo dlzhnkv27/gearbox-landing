@@ -1,0 +1,19 @@
+---
+const {
+  title,
+  subtitle,
+  headingLevel = "h2",
+  center = false,
+  className = "",
+} = Astro.props;
+
+const HeadingTag = headingLevel;
+---
+
+<div
+  class:list={["section-title", center && "section-title-center", className]}
+  data-level={headingLevel}
+>
+  <HeadingTag class="section-title-heading">{title}</HeadingTag>
+  {subtitle && <p class="section-title-subtitle">{subtitle}</p>}
+</div>

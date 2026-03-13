@@ -1,0 +1,25 @@
+---
+const { stats } = Astro.props;
+---
+
+<section
+  class="stats-strip"
+  aria-label="Gearbox metrics"
+  data-motion-group="stats-strip"
+  data-motion-threshold="0.5"
+  data-motion-stagger="150"
+>
+  {stats.map((item, index) => (
+    <article
+      class="stat-pill"
+      data-motion-item
+      data-motion-index={index}
+      data-motion-content="move-up-fade-in"
+    >
+      <div class="stat-pill-copy">
+        <strong>{item.value}</strong>
+        <span>{item.label}</span>
+      </div>
+    </article>
+  ))}
+</section>

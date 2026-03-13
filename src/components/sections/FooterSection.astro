@@ -1,0 +1,52 @@
+---
+import ButtonLink from "../ui/ButtonLink.astro";
+
+const { content } = Astro.props;
+---
+
+<div
+  class="footer-stage"
+  data-motion-block
+  data-motion-min-visible="150"
+  data-motion-content="block-reveal"
+>
+  <footer class="footer-card" id="footer-links">
+    <img class="footer-background" src={content.background} alt="" />
+
+    <div class="footer-top">
+      <h2>{content.title}</h2>
+      <div class="footer-actions">
+        {content.actions.map((action) => (
+          <ButtonLink
+            href={action.href}
+            label={action.label}
+            variant={action.variant}
+            size={action.size}
+            arrow={action.arrow}
+            lightArrow={action.lightArrow}
+          />
+        ))}
+      </div>
+    </div>
+
+    <div class="footer-links-grid">
+      {content.columns.map((column) => (
+        <div>
+          <h3>{column.title}</h3>
+          {column.links.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))}
+        </div>
+      ))}
+    </div>
+
+    <div class="footer-bottom">
+      <p>{content.copyright}</p>
+      <div class="footer-socials">
+        {content.socials.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))}
+      </div>
+    </div>
+  </footer>
+</div>

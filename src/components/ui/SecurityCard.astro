@@ -1,0 +1,8 @@
+---
+const { card } = Astro.props;
+---
+
+<article class="security-card">
+  <img src={card.icon} alt="" />
+  <span>{card.label}</span>
+</article>

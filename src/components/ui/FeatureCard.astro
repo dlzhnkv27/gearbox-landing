@@ -1,0 +1,18 @@
+---
+const { feature } = Astro.props;
+---
+
+<article class="feature-card">
+  <span class="feature-icon" aria-hidden="true">
+    <img class="feature-base" src={feature.icon.base} alt="" />
+    {feature.icon.layers.map((layer) => (
+      <img class:list={["feature-layer", layer.className]} src={layer.src} alt="" />
+    ))}
+  </span>
+  <h3>{feature.title}</h3>
+  <ul>
+    {feature.items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+</article>

@@ -1,0 +1,28 @@
+---
+const { className = "" } = Astro.props;
+---
+
+<div class:list={["account-preview", className]}>
+  <div class="preview-orbit">
+    <div class="preview-canvas">
+      <div class="preview-body" aria-hidden="true"></div>
+      <div class="preview-core">
+        <span class="preview-title">User Account</span>
+        <div class="preview-tabs">
+          <span class="preview-tab preview-tab-debt">
+            <span class="preview-tab-label preview-tab-label-debt">Debt</span>
+          </span>
+          <span class="preview-tab preview-tab-collateral">
+            <span class="preview-tab-label preview-tab-label-collateral">Collateral</span>
+          </span>
+        </div>
+      </div>
+      <div class="preview-checkline" aria-label="Eligibility Check">
+        <span class="preview-dots preview-dots-left" aria-hidden="true"></span>
+        <span class="preview-check-label">Eligibility Check</span>
+        <span class="preview-dots preview-dots-right" aria-hidden="true"></span>
+      </div>
+      <div class="preview-badge">Identified Person</div>
+    </div>
+  </div>
+</div>

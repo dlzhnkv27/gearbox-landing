@@ -1,0 +1,57 @@
+---
+import AccountsSection from "../components/sections/AccountsSection.astro";
+import ConstraintsSection from "../components/sections/ConstraintsSection.astro";
+import DemoSection from "../components/sections/DemoSection.astro";
+import FooterSection from "../components/sections/FooterSection.astro";
+import Header from "../components/sections/Header.astro";
+import HeroSection from "../components/sections/HeroSection.astro";
+import PartnersSection from "../components/sections/PartnersSection.astro";
+import ProductsSection from "../components/sections/ProductsSection.astro";
+import SecuritySection from "../components/sections/SecuritySection.astro";
+import StatsStrip from "../components/sections/StatsStrip.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  accountsSection,
+  brandAssets,
+  constraintsSection,
+  demoSection,
+  footerSection,
+  hero,
+  mobileNavigation,
+  navigation,
+  partnersSection,
+  productsSection,
+  securitySection,
+  stats,
+} from "../data/landing.js";
+---
+
+<BaseLayout title="Gearbox Landing">
+  <div class="site">
+    <main class="page-shell">
+      <div class="page-stack">
+        <section class="hero-group">
+          <Header
+            brandAssets={brandAssets}
+            navigation={navigation}
+            mobileNavigation={mobileNavigation}
+          />
+          <HeroSection hero={hero} />
+          <StatsStrip stats={stats} />
+          <ConstraintsSection content={constraintsSection} />
+          <AccountsSection content={accountsSection} />
+          <DemoSection content={demoSection} />
+        </section>
+
+        <PartnersSection content={partnersSection} />
+
+        <section class="products-group">
+          <ProductsSection content={productsSection} />
+          <SecuritySection content={securitySection} />
+        </section>
+
+        <FooterSection content={footerSection} />
+      </div>
+    </main>
+  </div>
+</BaseLayout>

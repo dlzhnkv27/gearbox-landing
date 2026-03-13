@@ -1,0 +1,57 @@
+---
+import BrandLogo from "../ui/BrandLogo.astro";
+import ButtonLink from "../ui/ButtonLink.astro";
+
+const { brandAssets, navigation, mobileNavigation } = Astro.props;
+---
+
+<header class="topbar">
+  <BrandLogo wordmark={brandAssets.wordmark} icon={brandAssets.icon} />
+
+  <nav class="main-nav" aria-label="Primary">
+    {navigation.map((item) => (
+      <a href={item.href}>{item.label}</a>
+    ))}
+  </nav>
+
+  <ButtonLink
+    href="#app"
+    label="dApp"
+    variant="light"
+    arrow={true}
+    className="desktop-app"
+  />
+
+  <button
+    id="menu-toggle"
+    class="menu-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+    aria-label="Open menu"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</header>
+
+<div id="mobile-menu" class="mobile-menu" hidden>
+  <div class="mobile-menu-header">
+    <BrandLogo wordmark={brandAssets.wordmark} icon={brandAssets.icon} />
+    <button
+      id="menu-close"
+      class="menu-close"
+      type="button"
+      aria-label="Close menu"
+    >
+      ×
+    </button>
+  </div>
+
+  <nav class="mobile-menu-nav" aria-label="Mobile">
+    {mobileNavigation.map((item) => (
+      <a href={item.href}>{item.label}</a>
+    ))}
+  </nav>
+</div>

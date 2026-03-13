@@ -1,0 +1,862 @@
+---
+import FooterSection from "../components/sections/FooterSection.astro";
+import Header from "../components/sections/Header.astro";
+import StatsStrip from "../components/sections/StatsStrip.astro";
+import AccountPreview from "../components/ui/AccountPreview.astro";
+import ButtonLink from "../components/ui/ButtonLink.astro";
+import ConstraintCard from "../components/ui/ConstraintCard.astro";
+import FeatureCard from "../components/ui/FeatureCard.astro";
+import PartnerPill from "../components/ui/PartnerPill.astro";
+import ProductCard from "../components/ui/ProductCard.astro";
+import SecurityCard from "../components/ui/SecurityCard.astro";
+import TestimonialCard from "../components/ui/TestimonialCard.astro";
+import TokenRow from "../components/ui/TokenRow.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  accountsSection,
+  brandAssets,
+  constraintsSection,
+  footerSection,
+  mobileNavigation,
+  navigation,
+  partnersSection,
+  productsSection,
+  securitySection,
+  stats,
+} from "../data/landing.js";
+
+const sections = [
+  { id: "colors", label: "Colors" },
+  { id: "typography", label: "Typography" },
+  { id: "buttons", label: "Buttons" },
+  { id: "topbar", label: "Topbar" },
+  { id: "stat-pills", label: "Stat Pills" },
+  { id: "constraint-cards", label: "Constraint Cards" },
+  { id: "feature-cards", label: "Feature Cards" },
+  { id: "account-preview", label: "Account Preview" },
+  { id: "product-cards", label: "Product Cards" },
+  { id: "security-cards", label: "Security Cards" },
+  { id: "partner-pills", label: "Partner Pills" },
+  { id: "testimonials", label: "Testimonials" },
+  { id: "footer", label: "Footer" },
+  { id: "token-chips", label: "Token Chips" },
+];
+
+const featureCards = [...accountsSection.leftFeatures, ...accountsSection.rightFeatures];
+const partnerCopies = [false, true];
+
+const baseColors = [
+  { name: "Surface", value: "#ffffff", token: "--surface · #fff" },
+  { name: "Page BG", value: "#f2f2f3", token: "--page-bg · Page_Bg" },
+  { name: "Dark", value: "#000000", token: "--dark · #000" },
+];
+
+const grayScale = [
+  { name: "Gray 50", value: "#f1f1f4", token: "--gray-50 · #f1f1f4" },
+  { name: "Gray 100", value: "#d8d8df", token: "--gray-100 · --surface-line" },
+  { name: "Gray 200", value: "#bfc0ca", token: "--gray-200 · #bfc0ca" },
+  { name: "Gray 300", value: "#a7a8b4", token: "--gray-300 · #a7a8b4" },
+  { name: "Gray 400", value: "#90919d", token: "--gray-400 · #90919d" },
+  { name: "Gray 500", value: "#797b86", token: "--gray-500 · --muted" },
+  { name: "Gray 600", value: "#64666d", token: "--gray-600 · #64666d" },
+  { name: "Gray 700", value: "#4f5054", token: "--gray-700 · #4f5054" },
+  { name: "Gray 800", value: "#3a3a3c", token: "--gray-800 · #3a3a3c" },
+  { name: "Gray 900", value: "#242424", token: "--gray-900 · #242424" },
+  { name: "Gray 950", value: "#0d0d0d", token: "--gray-950 · --text" },
+];
+
+const accentColors = [
+  { name: "Pink BG", value: "#fddbf0", token: "--pink-bg · Pink_Bg" },
+  { name: "Pink Accent", value: "#f4129a", token: "--pink-accent · Pink_Accent" },
+];
+
+const gradients = [
+  {
+    name: "Blue",
+    preview: "linear-gradient(180deg, #d5e5f2 0%, rgba(213, 229, 242, 0.5) 100%)",
+    token: "constraint-blue",
+  },
+  {
+    name: "Violet",
+    preview: "linear-gradient(180deg, #e5e0f4 0%, rgba(229, 224, 244, 0.5) 100%)",
+    token: "constraint-violet",
+  },
+  {
+    name: "Green",
+    preview: "linear-gradient(180deg, #d6eae2 0%, rgba(214, 234, 226, 0.5) 100%)",
+    token: "constraint-green",
+  },
+  {
+    name: "Gray",
+    preview: "linear-gradient(180deg, #e0e4ec 0%, rgba(224, 228, 236, 0.5) 100%)",
+    token: "constraint-gray",
+  },
+];
+---
+
+<BaseLayout title="Gearbox — Component Storybook">
+  <div class="sb-page">
+    <header class="sb-header">
+      <h1>Gearbox Component Storybook</h1>
+      <p>UI tokens, reusable components, and live section primitives used in the Astro landing.</p>
+      <nav class="sb-nav">
+        {sections.map((section) => (
+          <a href={`#${section.id}`}>{section.label}</a>
+        ))}
+      </nav>
+    </header>
+
+    <section class="sb-section" id="colors">
+      <div class="sb-section-header">
+        <h2>Colors</h2>
+        <p>Design tokens synced with the current Astro implementation.</p>
+        <div class="sb-story-id">Story ID: <code>colors</code></div>
+      </div>
+
+      <span class="sb-label">Base</span>
+      <div class="sb-color-grid">
+        {baseColors.map((color) => (
+          <div class="sb-color-swatch">
+            <div class="sb-color-swatch-block" style={`background:${color.value}`}></div>
+            <div class="sb-color-swatch-info">
+              <strong>{color.name}</strong>
+              <code>{color.token}</code>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="sb-stack">
+        <span class="sb-label">Gray Scale</span>
+        <div class="sb-color-grid">
+          {grayScale.map((color) => (
+            <div class="sb-color-swatch">
+              <div class="sb-color-swatch-block" style={`background:${color.value}`}></div>
+              <div class="sb-color-swatch-info">
+                <strong>{color.name}</strong>
+                <code>{color.token}</code>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="sb-stack">
+        <span class="sb-label">Accent</span>
+        <div class="sb-color-grid">
+          {accentColors.map((color) => (
+            <div class="sb-color-swatch">
+              <div class="sb-color-swatch-block" style={`background:${color.value}`}></div>
+              <div class="sb-color-swatch-info">
+                <strong>{color.name}</strong>
+                <code>{color.token}</code>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="sb-stack">
+        <span class="sb-label">Accent Gradients</span>
+        <div class="sb-color-grid">
+          {gradients.map((gradient) => (
+            <div class="sb-color-swatch">
+              <div class="sb-color-swatch-block" style={`background:${gradient.preview}`}></div>
+              <div class="sb-color-swatch-info">
+                <strong>{gradient.name}</strong>
+                <code>{gradient.token}</code>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="sb-section" id="typography">
+      <div class="sb-section-header">
+        <h2>Typography</h2>
+        <p>Current live type scale used by the landing components.</p>
+        <div class="sb-story-id">Story ID: <code>typography</code></div>
+      </div>
+
+      <div class="sb-type-row">
+        <div class="sb-type-meta">Hero H1 — 64px / 700 / 1.2</div>
+        <div style="font-size:64px;font-weight:700;line-height:1.2;font-family:'Manrope','Inter',system-ui,sans-serif;">Tokenisation Lending Stack</div>
+      </div>
+      <div class="sb-type-row">
+        <div class="sb-type-meta">Section H2 — 64px / 600 / 1.08</div>
+        <div style="font-size:64px;font-weight:600;line-height:1.08;font-family:'Manrope','Inter',system-ui,sans-serif;">On-chain assets</div>
+      </div>
+      <div class="sb-type-row">
+        <div class="sb-type-meta">Section Subtitle — 24px / 500 / 1.4</div>
+        <div style="font-size:24px;font-weight:500;line-height:1.4;font-family:'Manrope','Inter',system-ui,sans-serif;color:var(--muted);">Traditional lending pools cannot handle this model.</div>
+      </div>
+      <div class="sb-type-row">
+        <div class="sb-type-meta">Body — 18px / 400 / 1.4</div>
+        <div style="font-size:18px;line-height:1.4;">Tokenised assets are not standard DeFi assets. They come with specific requirements.</div>
+      </div>
+    </section>
+
+    <section class="sb-section" id="buttons">
+      <div class="sb-section-header">
+        <h2>Buttons</h2>
+        <p>Live button component variants rendered from <code>ButtonLink.astro</code>.</p>
+        <div class="sb-story-id">Story ID: <code>buttons</code></div>
+      </div>
+
+      <div class="sb-variant">
+        <span class="sb-label">Light / Dark Compare</span>
+        <div class="sb-component-grid">
+          <div class="sb-component-card sb-compare-card">
+            <div class="sb-component-card-meta">
+              <span class="sb-component-card-title">Arrow / L</span>
+            </div>
+            <div class="sb-compare-row">
+              <div class="sb-compare-item">
+                <div class="sb-compare-item-meta">
+                  <span class="sb-compare-item-label">Light</span>
+                  <code class="sb-component-card-id">button-light-arrow-l2</code>
+                </div>
+                <div class="sb-component-card-demo">
+                  <ButtonLink href="#buttons" label="dApp" variant="light" size="l" arrow={true} />
+                </div>
+              </div>
+              <div class="sb-compare-item">
+                <div class="sb-compare-item-meta">
+                  <span class="sb-compare-item-label">Dark</span>
+                  <code class="sb-component-card-id">button-dark-arrow-l2</code>
+                </div>
+                <div class="sb-component-card-demo">
+                  <ButtonLink href="#buttons" label="dApp" variant="dark" size="l" arrow={true} lightArrow={true} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sb-component-card sb-compare-card">
+            <div class="sb-component-card-meta">
+              <span class="sb-component-card-title">Arrow / M</span>
+            </div>
+            <div class="sb-compare-row">
+              <div class="sb-compare-item">
+                <div class="sb-compare-item-meta">
+                  <span class="sb-compare-item-label">Light</span>
+                  <code class="sb-component-card-id">button-light-arrow-m2</code>
+                </div>
+                <div class="sb-component-card-demo">
+                  <ButtonLink href="#buttons" label="dApp" variant="light" size="m" arrow={true} />
+                </div>
+              </div>
+              <div class="sb-compare-item">
+                <div class="sb-compare-item-meta">
+                  <span class="sb-compare-item-label">Dark</span>
+                  <code class="sb-component-card-id">button-dark-arrow-m2</code>
+                </div>
+                <div class="sb-component-card-demo">
+                  <ButtonLink href="#buttons" label="dApp" variant="dark" size="m" arrow={true} lightArrow={true} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sb-component-card sb-compare-card">
+            <div class="sb-component-card-meta">
+              <span class="sb-component-card-title">Plain / L</span>
+            </div>
+            <div class="sb-compare-row">
+              <div class="sb-compare-item">
+                <div class="sb-compare-item-meta">
+                  <span class="sb-compare-item-label">Light</span>
+                  <code class="sb-component-card-id">button-light-l2</code>
+                </div>
+                <div class="sb-component-card-demo">
+                  <ButtonLink href="#buttons" label="Request a Demo" variant="light" size="l" />
+                </div>
+              </div>
+              <div class="sb-compare-item">
+                <div class="sb-compare-item-meta">
+                  <span class="sb-compare-item-label">Dark</span>
+                  <code class="sb-component-card-id">button-dark-l2</code>
+                </div>
+                <div class="sb-component-card-demo">
+                  <ButtonLink href="#buttons" label="Request a Demo" variant="dark" size="l" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sb-component-card sb-compare-card">
+            <div class="sb-component-card-meta">
+              <span class="sb-component-card-title">Plain / M</span>
+            </div>
+            <div class="sb-compare-row">
+              <div class="sb-compare-item">
+                <div class="sb-compare-item-meta">
+                  <span class="sb-compare-item-label">Light</span>
+                  <code class="sb-component-card-id">button-light-m2</code>
+                </div>
+                <div class="sb-component-card-demo">
+                  <ButtonLink href="#buttons" label="Start Earning" variant="light" size="m" />
+                </div>
+              </div>
+              <div class="sb-compare-item">
+                <div class="sb-compare-item-meta">
+                  <span class="sb-compare-item-label">Dark</span>
+                  <code class="sb-component-card-id">button-dark-m2</code>
+                </div>
+                <div class="sb-component-card-demo">
+                  <ButtonLink href="#buttons" label="Start Earning" variant="dark" size="m" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-variant">
+        <span class="sb-label">Standalone Variants</span>
+        <div class="sb-component-grid">
+            <div class="sb-component-card">
+              <div class="sb-component-card-meta">
+                <span class="sb-component-card-title">Outline / L</span>
+                <code class="sb-component-card-id">button-outline</code>
+              </div>
+              <div class="sb-component-card-demo">
+                <ButtonLink href="#buttons" label="View Docs" variant="outline" size="l" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-variant">
+        <span class="sb-label">Arrow Icon</span>
+        <div class="sb-component-grid">
+          <div class="sb-component-card">
+            <div class="sb-component-card-meta">
+              <span class="sb-component-card-title">Arrow Icon / Dark</span>
+              <code class="sb-component-card-id">button-arrow-dark</code>
+            </div>
+            <div class="sb-component-card-demo sb-component-card-demo-center">
+              <span class="button-arrow" aria-hidden="true"></span>
+            </div>
+          </div>
+
+          <div class="sb-component-card">
+            <div class="sb-component-card-meta">
+              <span class="sb-component-card-title">Arrow Icon / Light</span>
+              <code class="sb-component-card-id">button-arrow-light</code>
+            </div>
+            <div class="sb-component-card-demo sb-component-card-demo-center">
+              <span class="button-arrow button-arrow-light" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sb-section" id="topbar">
+      <div class="sb-section-header">
+        <h2>Topbar</h2>
+        <p>Live header component reused from the page layout.</p>
+        <div class="sb-story-id">Story ID: <code>topbar</code></div>
+      </div>
+
+      <Header brandAssets={brandAssets} navigation={navigation} mobileNavigation={mobileNavigation} />
+      <div class="sb-component-id-row">
+        <span class="sb-component-id">Component ID: <code>topbar</code></span>
+      </div>
+    </section>
+
+    <section class="sb-section" id="stat-pills">
+      <div class="sb-section-header">
+        <h2>Stat Pills</h2>
+        <p>Live stats strip reused from the page.</p>
+        <div class="sb-story-id">Story ID: <code>stat-pills</code></div>
+      </div>
+
+      <StatsStrip stats={stats} />
+      <div class="sb-component-id-row">
+        <span class="sb-component-id">Component ID: <code>stats-strip</code></span>
+        <span class="sb-component-id">Component ID: <code>stat-pill</code></span>
+      </div>
+    </section>
+
+    <section class="sb-section" id="constraint-cards">
+      <div class="sb-section-header">
+        <h2>Constraint Cards</h2>
+        <p>Reusable constraint card component rendered from current content data.</p>
+        <div class="sb-story-id">Story ID: <code>constraint-cards</code></div>
+      </div>
+
+      <div class="sb-grid-2">
+        {constraintsSection.cards.map((card) => (
+          <ConstraintCard className={card.className} text={card.text} number={card.number} />
+        ))}
+      </div>
+      <div class="sb-component-id-row">
+        <span class="sb-component-id">Component ID: <code>constraint-card-blue</code></span>
+        <span class="sb-component-id">Component ID: <code>constraint-card-violet</code></span>
+        <span class="sb-component-id">Component ID: <code>constraint-card-green</code></span>
+        <span class="sb-component-id">Component ID: <code>constraint-card-gray</code></span>
+      </div>
+    </section>
+
+    <section class="sb-section" id="feature-cards">
+      <div class="sb-section-header">
+        <h2>Feature Cards</h2>
+        <p>Reusable feature card component rendered from the current accounts section data.</p>
+        <div class="sb-story-id">Story ID: <code>feature-cards</code></div>
+      </div>
+
+      <div class="sb-grid-4">
+        {featureCards.map((feature) => (
+          <FeatureCard feature={feature} />
+        ))}
+      </div>
+      <div class="sb-component-id-row">
+        <span class="sb-component-id">Component ID: <code>feature-card-account-user</code></span>
+        <span class="sb-component-id">Component ID: <code>feature-card-issuer-aware</code></span>
+        <span class="sb-component-id">Component ID: <code>feature-card-zero-slippage</code></span>
+        <span class="sb-component-id">Component ID: <code>feature-card-automated-leverage</code></span>
+      </div>
+    </section>
+
+    <section class="sb-section" id="account-preview">
+      <div class="sb-section-header">
+        <h2>Account Preview</h2>
+        <p>Live account preview component shared with the accounts section.</p>
+        <div class="sb-story-id">Story ID: <code>account-preview</code></div>
+      </div>
+
+      <div class="sb-contained">
+        <AccountPreview />
+      </div>
+      <div class="sb-component-id-row">
+        <span class="sb-component-id">Component ID: <code>account-preview</code></span>
+      </div>
+    </section>
+
+    <section class="sb-section" id="product-cards">
+      <div class="sb-section-header">
+        <h2>Product Cards</h2>
+        <p>Reusable product card component rendered from the page data.</p>
+        <div class="sb-story-id">Story ID: <code>product-cards</code></div>
+      </div>
+
+      <div class="sb-stack">
+        {productsSection.cards.map((card) => (
+          <ProductCard card={card} />
+        ))}
+      </div>
+      <div class="sb-component-id-row">
+        <span class="sb-component-id">Component ID: <code>product-card-blue</code></span>
+        <span class="sb-component-id">Component ID: <code>product-card-violet</code></span>
+      </div>
+    </section>
+
+    <section class="sb-section" id="security-cards">
+      <div class="sb-section-header">
+        <h2>Security Cards</h2>
+        <p>Reusable security card component rendered from the page data.</p>
+        <div class="sb-story-id">Story ID: <code>security-cards</code></div>
+      </div>
+
+      <div class="security-grid">
+        {securitySection.cards.map((card) => (
+          <SecurityCard card={card} />
+        ))}
+      </div>
+      <div class="sb-component-id-row">
+        <span class="sb-component-id">Component ID: <code>security-card-bug-bounty</code></span>
+        <span class="sb-component-id">Component ID: <code>security-card-audits</code></span>
+        <span class="sb-component-id">Component ID: <code>security-card-institutions</code></span>
+      </div>
+    </section>
+
+    <section class="sb-section" id="partner-pills">
+      <div class="sb-section-header">
+        <h2>Partner Pills</h2>
+        <p>Reusable partner pill component in its current placeholder state.</p>
+        <div class="sb-story-id">Story ID: <code>partner-pills</code></div>
+      </div>
+
+      <div class="partner-marquee" aria-label="Partners">
+        <div class="partner-track">
+          {partnerCopies.map((isDuplicate) => (
+            <div class="partner-strip" aria-hidden={isDuplicate ? "true" : undefined}>
+              {partnersSection.partners.map((partner) => (
+                <PartnerPill partner={partner} ariaHidden={isDuplicate} />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="sb-component-id-row">
+        <span class="sb-component-id">Component ID: <code>partner-pill-balancer</code></span>
+        <span class="sb-component-id">Component ID: <code>partner-pill-lido</code></span>
+        <span class="sb-component-id">Component ID: <code>partner-pill-fuel</code></span>
+        <span class="sb-component-id">Component ID: <code>partner-pill-marginly</code></span>
+        <span class="sb-component-id">Component ID: <code>partner-pill-swell</code></span>
+        <span class="sb-component-id">Component ID: <code>partner-pill-zircuit</code></span>
+      </div>
+    </section>
+
+    <section class="sb-section" id="testimonials">
+      <div class="sb-section-header">
+        <h2>Testimonials</h2>
+        <p>Reusable testimonial card component rendered from the live data.</p>
+        <div class="sb-story-id">Story ID: <code>testimonials</code></div>
+      </div>
+
+      <div class="sb-contained-lg">
+        <TestimonialCard testimonial={partnersSection.testimonials[0]} />
+      </div>
+      <div class="sb-component-id-row">
+        <span class="sb-component-id">Component ID: <code>testimonial-card</code></span>
+      </div>
+    </section>
+
+    <section class="sb-section" id="footer">
+      <div class="sb-section-header">
+        <h2>Footer</h2>
+        <p>Live footer section reused from the main page.</p>
+        <div class="sb-story-id">Story ID: <code>footer</code></div>
+      </div>
+
+      <FooterSection content={footerSection} />
+      <div class="sb-component-id-row">
+        <span class="sb-component-id">Component ID: <code>footer-card</code></span>
+      </div>
+    </section>
+
+    <section class="sb-section" id="token-chips">
+      <div class="sb-section-header">
+        <h2>Token Chips</h2>
+        <p>Shared token row renderer used inside product cards.</p>
+        <div class="sb-story-id">Story ID: <code>token-chips</code></div>
+      </div>
+
+      <div class="sb-row">
+        <TokenRow assets={productsSection.cards[0].assets} />
+        <TokenRow assets={productsSection.cards[1].assets} />
+      </div>
+      <div class="sb-component-id-row">
+        <span class="sb-component-id">Component ID: <code>token-chip</code></span>
+      </div>
+    </section>
+  </div>
+
+  <style is:global>
+    .sb-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .sb-header {
+      margin-bottom: 64px;
+      padding-bottom: 32px;
+      border-bottom: 2px solid var(--surface-line);
+    }
+
+    .sb-header h1 {
+      margin: 0;
+      font-size: 48px;
+      line-height: 1.1;
+    }
+
+    .sb-header p {
+      margin: 12px 0 0;
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .sb-nav {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .sb-nav a {
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #e8e8ec;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      transition: background 0.15s;
+    }
+
+    .sb-nav a:hover {
+      background: #d0d0d6;
+    }
+
+    .sb-section {
+      margin-bottom: 72px;
+      scroll-margin-top: 24px;
+    }
+
+    .sb-section-header {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--surface-line);
+    }
+
+    .sb-section-header h2 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .sb-section-header p {
+      margin: 6px 0 0;
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .sb-story-id,
+    .sb-component-id {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #ececf1;
+      color: var(--gray-800);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .sb-story-id {
+      margin-top: 12px;
+    }
+
+    .sb-story-id code,
+    .sb-component-id code {
+      font-size: 12px;
+    }
+
+    .sb-component-id-row {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .sb-label {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    .sb-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .sb-stack {
+      margin-top: 24px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .sb-variant {
+      margin-bottom: 32px;
+    }
+
+    .sb-component-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .sb-component-card {
+      min-height: 140px;
+      padding: 16px;
+      border: 1px dashed var(--gray-300);
+      border-radius: 24px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .sb-compare-card {
+      justify-content: flex-start;
+    }
+
+    .sb-component-card-meta {
+      display: grid;
+      gap: 6px;
+    }
+
+    .sb-component-card-title {
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .sb-component-card-id {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text);
+    }
+
+    .sb-component-card-demo {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .sb-component-card-demo-center {
+      justify-content: center;
+    }
+
+    .sb-compare-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .sb-compare-item {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 18px;
+      background: #f6f6f8;
+    }
+
+    .sb-compare-item-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sb-compare-item-label {
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .sb-dark-bg {
+      background: #1a1a1a;
+      padding: 32px;
+      border-radius: 24px;
+    }
+
+    .sb-dark-bg .sb-component-card {
+      border-color: rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .sb-dark-bg .sb-component-card-title {
+      color: rgba(255, 255, 255, 0.56);
+    }
+
+    .sb-dark-bg .sb-component-card-id {
+      color: #fff;
+    }
+
+    .sb-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .sb-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .sb-color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .sb-color-swatch {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--surface-line);
+    }
+
+    .sb-color-swatch-block {
+      height: 80px;
+    }
+
+    .sb-color-swatch-info {
+      padding: 10px 12px;
+      background: #fff;
+    }
+
+    .sb-color-swatch-info strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .sb-color-swatch-info code {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .sb-type-row {
+      margin-bottom: 16px;
+    }
+
+    .sb-type-meta {
+      margin-bottom: 4px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .sb-contained {
+      max-width: 500px;
+    }
+
+    .sb-contained-lg {
+      max-width: 700px;
+    }
+
+    @media (max-width: 767px) {
+      .sb-compare-row {
+        grid-template-columns: 1fr;
+      }
+
+      .sb-page {
+        padding: 24px 16px 56px;
+      }
+
+      .sb-header h1 {
+        font-size: 32px;
+      }
+
+      .sb-dark-bg {
+        padding: 16px;
+      }
+    }
+  </style>
+</BaseLayout>

@@ -1,0 +1,7 @@
+---
+const { partner, ariaHidden = false } = Astro.props;
+---
+
+<span class="partner-pill">
+  <span class="partner-logo" aria-label={ariaHidden ? undefined : partner.name}></span>
+</span>

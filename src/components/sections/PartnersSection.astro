@@ -1,0 +1,35 @@
+---
+import PartnerPill from "../ui/PartnerPill.astro";
+import SectionTitle from "../ui/SectionTitle.astro";
+import TestimonialCard from "../ui/TestimonialCard.astro";
+
+const { content } = Astro.props;
+const marqueeCopies = [false, true];
+---
+
+<section
+  class="partners-group"
+  data-motion-block
+  data-motion-min-visible="150"
+  data-motion-content="block-reveal"
+>
+  <SectionTitle title={content.title} headingLevel="h3" center={true} className="partners-title" />
+
+  <div class="partner-marquee" aria-label="Partners">
+    <div class="partner-track">
+      {marqueeCopies.map((isDuplicate) => (
+        <div class="partner-strip" aria-hidden={isDuplicate ? "true" : undefined}>
+          {content.partners.map((partner) => (
+            <PartnerPill partner={partner} ariaHidden={isDuplicate} />
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="testimonials-grid">
+    {content.testimonials.map((testimonial) => (
+      <TestimonialCard testimonial={testimonial} />
+    ))}
+  </div>
+</section>

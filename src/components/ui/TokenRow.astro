@@ -1,0 +1,13 @@
+---
+const { assets } = Astro.props;
+---
+
+<div class="token-row">
+  {assets.map((asset) =>
+    asset.type === "chip" ? (
+      <span class="token-chip">{asset.label}</span>
+    ) : (
+      <img src={asset.src} alt={asset.alt} />
+    ),
+  )}
+</div>

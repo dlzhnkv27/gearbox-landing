@@ -1,0 +1,25 @@
+---
+import ButtonLink from "../ui/ButtonLink.astro";
+import SectionTitle from "../ui/SectionTitle.astro";
+
+const { content } = Astro.props;
+---
+
+<section
+  id="demo"
+  class="panel demo-panel"
+  data-motion-block
+  data-motion-min-visible="150"
+  data-motion-content="block-reveal"
+>
+  <SectionTitle title={content.title} subtitle={content.description} headingLevel="h3" center={true} />
+
+  <ButtonLink
+    href={content.ctaHref}
+    label={content.ctaLabel}
+    variant="dark"
+    size="l"
+    arrow={true}
+    lightArrow={true}
+  />
+</section>

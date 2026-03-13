@@ -1,0 +1,25 @@
+---
+import ConstraintCard from "../ui/ConstraintCard.astro";
+import SectionTitle from "../ui/SectionTitle.astro";
+
+const { content } = Astro.props;
+---
+
+<section
+  class="panel constraints-panel"
+  id="app"
+  data-motion-block
+  data-motion-min-visible="150"
+  data-motion-content="block-reveal"
+>
+  <div class="constraints-copy">
+    <SectionTitle title={content.title} subtitle={content.description} />
+    <img class="constraints-graphic" src={content.graphic} alt="" />
+  </div>
+
+  <div class="constraint-list">
+    {content.cards.map((card) => (
+      <ConstraintCard className={card.className} text={card.text} number={card.number} />
+    ))}
+  </div>
+</section>

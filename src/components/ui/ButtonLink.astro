@@ -1,0 +1,30 @@
+---
+const {
+  href = "#",
+  label,
+  variant = "dark",
+  size,
+  small = false,
+  arrow = false,
+  lightArrow = false,
+  className = "",
+} = Astro.props;
+
+const resolvedSize = size === "m" || size === "l" ? size : small ? "m" : "l";
+---
+
+<a
+  class:list={[
+    "button",
+    `button-${variant}`,
+    `button-size-${resolvedSize}`,
+    arrow && "button-has-arrow",
+    className,
+  ]}
+  href={href}
+>
+  <span>{label}</span>
+  {arrow && (
+    <span class:list={["button-arrow", lightArrow && "button-arrow-light"]} aria-hidden="true"></span>
+  )}
+</a>

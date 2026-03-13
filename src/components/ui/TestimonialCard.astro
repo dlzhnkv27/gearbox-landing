@@ -1,0 +1,14 @@
+---
+const { testimonial } = Astro.props;
+---
+
+<article class="testimonial-card">
+  <p>{testimonial.quote}</p>
+  <div class="testimonial-meta">
+    <img src={testimonial.avatar} alt={testimonial.name} />
+    <div>
+      <strong>{testimonial.name}</strong>
+      <span>{testimonial.role}</span>
+    </div>
+  </div>
+</article>

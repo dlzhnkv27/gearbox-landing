@@ -1,0 +1,34 @@
+---
+import AccountPreview from "../ui/AccountPreview.astro";
+import FeatureCard from "../ui/FeatureCard.astro";
+import SectionTitle from "../ui/SectionTitle.astro";
+
+const { content } = Astro.props;
+---
+
+<section
+  class="panel accounts-panel"
+  data-motion-block
+  data-motion-min-visible="150"
+  data-motion-content="block-reveal"
+>
+  <SectionTitle title={content.title} subtitle={content.description} center={true} />
+
+  <div class="accounts-layout">
+    <div class="features-col features-col-left">
+      {content.leftFeatures.map((feature) => (
+        <FeatureCard feature={feature} />
+      ))}
+    </div>
+
+    <div class="account-preview-column">
+      <AccountPreview />
+    </div>
+
+    <div class="features-col features-col-right">
+      {content.rightFeatures.map((feature) => (
+        <FeatureCard feature={feature} />
+      ))}
+    </div>
+  </div>
+</section>

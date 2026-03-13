@@ -1,0 +1,22 @@
+---
+import ProductCard from "../ui/ProductCard.astro";
+import SectionTitle from "../ui/SectionTitle.astro";
+
+const { content } = Astro.props;
+---
+
+<section
+  id="products"
+  class="panel products-panel"
+  data-motion-block
+  data-motion-min-visible="150"
+  data-motion-content="block-reveal"
+>
+  <SectionTitle title={content.title} subtitle={content.description} />
+
+  <div class="product-cards">
+    {content.cards.map((card) => (
+      <ProductCard card={card} />
+    ))}
+  </div>
+</section>

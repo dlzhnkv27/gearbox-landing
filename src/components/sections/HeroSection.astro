@@ -1,0 +1,19 @@
+---
+const { hero } = Astro.props;
+---
+
+<section class="hero-card">
+  <div class="hero-overhang" aria-hidden="true">
+    <img class="hero-image hero-image-overhang" src={hero.image} alt="" width="2800" height="1546" />
+  </div>
+  <div class="hero-surface" aria-hidden="true">
+    <img class="hero-image hero-image-base" src={hero.image} alt="" width="2800" height="1546" />
+    <div class="hero-shade"></div>
+  </div>
+  <div class="hero-copy">
+    <div class="hero-copy-inner">
+      <h1>{hero.title}</h1>
+      <p>{hero.description}</p>
+    </div>
+  </div>
+</section>

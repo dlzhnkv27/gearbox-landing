@@ -1,0 +1,22 @@
+---
+import SectionTitle from "../ui/SectionTitle.astro";
+import SecurityCard from "../ui/SecurityCard.astro";
+
+const { content } = Astro.props;
+---
+
+<section
+  id="security"
+  class="panel security-panel"
+  data-motion-block
+  data-motion-min-visible="150"
+  data-motion-content="block-reveal"
+>
+  <SectionTitle title={content.title} subtitle={content.description} headingLevel="h3" center={true} />
+
+  <div class="security-grid">
+    {content.cards.map((card) => (
+      <SecurityCard card={card} />
+    ))}
+  </div>
+</section>

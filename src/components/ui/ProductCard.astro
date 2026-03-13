@@ -1,0 +1,42 @@
+---
+import ButtonLink from "./ButtonLink.astro";
+import TokenRow from "./TokenRow.astro";
+
+const { card, ctaHref = "#footer-links" } = Astro.props;
+---
+
+<article class:list={["product-card", card.className]}>
+  <div class="product-top">
+    <div>
+      <h3>{card.title}</h3>
+      <p>{card.description}</p>
+    </div>
+    <div class="product-rate">
+      <strong>{card.rateValue}</strong>
+      <span>{card.rateLabel}</span>
+    </div>
+  </div>
+
+  <div class="product-metrics">
+    {card.metrics.map((metric) => (
+      <div class="metric-block">
+        <span>{metric.label}</span>
+        <strong>{metric.value}</strong>
+      </div>
+    ))}
+
+    <div class="metric-block metric-assets">
+      <span>{card.assetsLabel}</span>
+      <TokenRow assets={card.assets} />
+    </div>
+  </div>
+
+  <ButtonLink
+    href={ctaHref}
+    label={card.ctaLabel}
+    variant="dark"
+    size="m"
+    arrow={card.ctaArrow}
+    lightArrow={card.ctaLightArrow}
+  />
+</article>
