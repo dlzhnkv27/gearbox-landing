@@ -199,6 +199,7 @@ Landing/
 ## When to Use Motion Reference
 - Open [`MOTION.md`](./MOTION.md) before introducing any new viewport reveal or stagger logic.
 - Open [`MOTION.md`](./MOTION.md) before changing button hover or arrow micro-interactions.
+- On reverse scroll, reveal patterns should show content immediately on intersection instead of waiting for downward thresholds.
 - Reuse the documented motion hooks and timing values unless the design explicitly requires a new pattern.
 
 ## When to Use Layout Reference

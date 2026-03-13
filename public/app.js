@@ -227,6 +227,11 @@ if (motionGroups.length > 0 || motionBlocks.length > 0) {
             return;
           }
 
+          if (scrollDirection !== "down") {
+            revealMotionTarget({ element: item, content }, false);
+            return;
+          }
+
           if (entry.intersectionRatio < Number.parseFloat(item.dataset.motionThreshold || "0.5")) {
             return;
           }
@@ -263,6 +268,11 @@ if (motionGroups.length > 0 || motionBlocks.length > 0) {
 
           if (!entry.isIntersecting) {
             resetMotionTarget({ element: block, content });
+            return;
+          }
+
+          if (scrollDirection !== "down") {
+            revealMotionTarget({ element: block, content }, false);
             return;
           }
 

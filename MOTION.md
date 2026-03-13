@@ -31,7 +31,7 @@
 ### Behavior rules
 - Downward entry: animate with move-up + fade-in on every new re-entry.
 - In `stats-strip`, the animated target is the whole `stat-pill`, not only the inner copy.
-- Upward entry: reveal instantly with no animation.
+- Upward entry: reveal instantly with no animation as soon as the item starts intersecting the viewport; do not wait for the downward threshold.
 - After the element leaves the viewport, reset it so the next downward re-entry can animate again.
 
 ## Section Reveal Pattern
@@ -57,7 +57,7 @@
 
 ### Behavior rules
 - Downward entry: reveal the whole block at once on every new re-entry.
-- Upward entry: show the block immediately in its final state.
+- Upward entry: show the block immediately in its final state as soon as it starts intersecting the viewport; do not wait for `data-motion-min-visible`.
 - After the block leaves the viewport, reset it so the next downward re-entry can animate again.
 
 ## Hover Expansion Pattern
