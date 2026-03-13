@@ -21,6 +21,7 @@
   --muted:        var(--gray-500);
   --text:         var(--gray-950);
   --dark: #000000;
+  --section-heading-family: "Inter", system-ui, sans-serif;
 
   /* Accent */
   --pink-bg: #fddbf0;       /* Pink_Bg */
@@ -674,6 +675,7 @@ button {
 
 .section-title-heading {
   margin: 0;
+  font-family: var(--section-heading-family);
   font-size: var(--section-title-size);
   font-weight: 600;
   line-height: var(--section-title-line-height);
@@ -1412,6 +1414,7 @@ button {
 
 .footer-top h2 {
   max-width: 760px;
+  font-family: var(--section-heading-family);
   font-size: 60px;
   font-weight: 600;
   line-height: 72px;

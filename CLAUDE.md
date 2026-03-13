@@ -111,6 +111,8 @@ Landing/
 | Desktop/H2        | 64px | 600    | 1.08        |
 | Desktop/Subtitle/H2 | 24px | 500 | 1.4         |
 
+- `section-title-heading` and `footer-top h2` share the same heading family token `--section-heading-family`.
+
 ### Spacing
 | Token        | Value |
 |--------------|-------|
