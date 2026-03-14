@@ -99,7 +99,7 @@ Use this pattern before changing the footer background treatment, full-bleed beh
 - `src/components/sections/FooterSection.astro` uses:
   - `footer-stage`: layout wrapper and full-bleed underlay host
   - `footer-card`: the rounded media card itself
-- The reveal hook lives on `footer-stage`, so the underlay and the card enter together.
+- The footer no longer participates in the shared section reveal pattern; it stays visible at all times.
 
 ### Current Rules
 - `footer-stage::before` creates the black underlay.
@@ -116,4 +116,3 @@ Use this pattern before changing the footer background treatment, full-bleed beh
 ### When To Reopen This File
 - Before changing footer full-bleed background behavior.
 - Before changing the page-ending background below the footer.
-- Before moving footer reveal hooks between wrapper and card.

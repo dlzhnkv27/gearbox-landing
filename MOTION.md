@@ -45,7 +45,6 @@
   - `partners-group`
   - `products-panel`
   - `security-panel`
-  - `footer-card`
 
 ### Current reference settings
 - Minimum visible area in viewport: `100px`

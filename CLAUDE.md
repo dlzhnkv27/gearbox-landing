@@ -201,6 +201,7 @@ Landing/
 - Open [`MOTION.md`](./MOTION.md) before changing button hover or arrow micro-interactions.
 - Open [`MOTION.md`](./MOTION.md) before changing slow decorative looping motion such as the `Constraints` cycles artwork.
 - On reverse scroll, reveal patterns should show content immediately on intersection instead of waiting for downward thresholds.
+- Footer is intentionally excluded from the shared section reveal pattern and should stay visible unless a layout change explicitly reintroduces motion there.
 - Reuse the documented motion hooks and timing values unless the design explicitly requires a new pattern.
 
 ## When to Use Layout Reference
