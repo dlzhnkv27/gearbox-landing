@@ -65,6 +65,7 @@ Use this pattern before changing the decorative artwork in `Constraints`, the ov
 - Asset: `public/assets/constraints/constraints-cycles.svg`
 - The graphic lives directly under `constraints-panel`, not inside the text column.
 - `constraints-panel` masks the artwork with `overflow: hidden`.
+- Desktop panel min-height: `780px`
 - Desktop size: `864px`
 - Tablet size: `672px`
 - Positioning rule:

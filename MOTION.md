@@ -36,7 +36,7 @@
 
 ## Section Reveal Pattern
 - Block hook: `[data-motion-block]`
-- Visibility trigger: `data-motion-min-visible="150"`
+- Visibility trigger: `data-motion-min-visible="100"`
 - Animated content hook: `[data-motion-content="block-reveal"]`
 - Current reference implementations:
   - `constraints-panel`
@@ -48,7 +48,7 @@
   - `footer-card`
 
 ### Current reference settings
-- Minimum visible area in viewport: `150px`
+- Minimum visible area in viewport: `100px`
 - Duration: `700ms`
 - Easing: `cubic-bezier(0.22, 1, 0.36, 1)`
 - Distance:
@@ -119,6 +119,34 @@
 ### Behavior rules
 - Decorative spin must remain subtle and slow enough to read as atmospheric motion, not as interactive feedback.
 - Disable the rotation under `prefers-reduced-motion: reduce`.
+
+## Constraint Card Expansion Pattern
+- Reference: desktop cards in `Constraints`
+- Use a container-held active state so pointer travel across gaps does not reset the expanded card.
+
+### Current reference settings
+- Scope: desktop only (`min-width: 1200px`)
+- Active state host: `.constraint-list[data-active-index]`
+- Card size model:
+  - default: each card `25%`
+  - active: one card `45%`
+  - remaining three cards share the remaining `55%`
+- Size transition:
+  - property: `flex-grow`
+  - duration: `250ms`
+  - easing: `cubic-bezier(0.42, 0, 0.22, 1.04)`
+- Body text reveal:
+  - font: `Inter`
+  - size: `15px`
+  - weight: `400`
+  - line-height: `1.4`
+  - reveal duration: `250ms` for layout/transform, `200ms` for opacity
+
+### Behavior rules
+- The active card stays expanded while the pointer remains anywhere inside `.constraint-list`.
+- The active state resets only when the pointer leaves the whole list.
+- Body copy is visible only for the active desktop card.
+- On mobile, the body copy stays hidden.
 
 ## Implementation Rule
 - If a new motion request matches one of these patterns, extend the existing hooks and timing tokens instead of inventing a new custom animation model.

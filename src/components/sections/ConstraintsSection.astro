@@ -9,7 +9,7 @@ const { content } = Astro.props;
   class="panel constraints-panel"
   id="app"
   data-motion-block
-  data-motion-min-visible="150"
+  data-motion-min-visible="100"
   data-motion-content="block-reveal"
 >
   <img class="constraints-graphic" src={content.graphic} alt="" />
@@ -20,7 +20,7 @@ const { content } = Astro.props;
 
   <div class="constraint-list">
     {content.cards.map((card) => (
-      <ConstraintCard className={card.className} text={card.text} number={card.number} />
+      <ConstraintCard className={card.className} text={card.text} number={card.number} body={card.body} />
     ))}
   </div>
 </section>

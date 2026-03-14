@@ -215,9 +215,27 @@ Landing/
 - `Constraints` uses `public/assets/constraints/constraints-cycles.svg` as a decorative underlay.
 - The artwork sits on the `constraints-panel`, not inside the text column.
 - The panel itself is the mask through `overflow: hidden`.
+- Desktop panel min-height: `780px`.
 - Desktop size: `864px`; tablet size: `672px`; mobile: hidden.
 - Placement rule: offset the artwork by `-50%` of its current width on both `left` and `bottom`.
 - Motion rule: clockwise rotation, `72s linear infinite`, disabled under `prefers-reduced-motion: reduce`.
+- Section reveal threshold is `100px`, not `150px`.
+- Desktop cards use a container-held active state on `.constraint-list`, so moving across the gaps does not collapse the active card.
+- Desktop card split:
+  - default: `25% / 25% / 25% / 25%`
+  - active: `45%`
+  - remaining cards share the remaining `55%`
+- Desktop expansion animation:
+  - property: `flex-grow`
+  - duration: `250ms`
+  - easing: `cubic-bezier(0.42, 0, 0.22, 1.04)`
+- Expanded desktop cards reveal body copy from the per-card `body` field in `src/data/landing.js`.
+- Constraint body text token:
+  - family: `Inter`
+  - size: `15px`
+  - weight: `400`
+  - line-height: `1.4`
+- Body copy is hidden on mobile.
 
 ## Account Preview Rules
 - `Identified Person` must stay on one line and be centered both horizontally and vertically inside its pill.

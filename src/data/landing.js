@@ -37,21 +37,25 @@ export const constraintsSection = {
       className: "constraint-blue",
       text: "Regulatory and KYC requirements",
       number: "01",
+      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
       className: "constraint-violet",
       text: "Custom Deposit and Redemption mechanics",
       number: "02",
+      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
       className: "constraint-green",
       text: "Off-chain financial logic from issuers",
       number: "03",
+      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
       className: "constraint-gray",
       text: "Legal enforcement workflows",
       number: "04",
+      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
   ],
 };

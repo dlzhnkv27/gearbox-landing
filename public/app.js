@@ -3,6 +3,7 @@ const menuClose = document.getElementById("menu-close");
 const mobileMenu = document.getElementById("mobile-menu");
 const menuLinks = mobileMenu ? mobileMenu.querySelectorAll("a") : [];
 const heroCard = document.querySelector(".hero-card");
+const constraintLists = Array.from(document.querySelectorAll(".constraint-list"));
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let heroShadeFrame = 0;
 
@@ -121,6 +122,20 @@ window.addEventListener("resize", scheduleHeroShadeUpdate);
 prefersReducedMotion.addEventListener("change", scheduleHeroShadeUpdate);
 scheduleHeroShadeUpdate();
 
+constraintLists.forEach((list) => {
+  const cards = Array.from(list.querySelectorAll(".constraint-card"));
+
+  cards.forEach((card, index) => {
+    card.addEventListener("pointerenter", () => {
+      list.dataset.activeIndex = String(index + 1);
+    });
+  });
+
+  list.addEventListener("pointerleave", () => {
+    delete list.dataset.activeIndex;
+  });
+});
+
 if (motionGroups.length > 0 || motionBlocks.length > 0) {
   const observedItems = [];
   const observedBlocks = [];
@@ -191,7 +206,7 @@ if (motionGroups.length > 0 || motionBlocks.length > 0) {
       return;
     }
 
-    const minVisible = Number.parseInt(block.dataset.motionMinVisible || "150", 10);
+    const minVisible = Number.parseInt(block.dataset.motionMinVisible || "100", 10);
     const requiredVisible = Math.min(minVisible, Math.ceil(block.getBoundingClientRect().height || minVisible));
     const isAboveViewport = block.getBoundingClientRect().bottom <= 0;
     const isAlreadyVisible = getVisibleHeight(block) >= requiredVisible;
@@ -274,7 +289,7 @@ if (motionGroups.length > 0 || motionBlocks.length > 0) {
             return;
           }
 
-          const requiredVisible = Number.parseInt(block.dataset.motionRequiredVisible || "150", 10);
+          const requiredVisible = Number.parseInt(block.dataset.motionRequiredVisible || "100", 10);
 
           if (getVisibleHeight(block) < requiredVisible) {
             return;

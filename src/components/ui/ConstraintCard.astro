@@ -1,8 +1,11 @@
 ---
-const { text, number, className = "" } = Astro.props;
+const { text, number, body = "", className = "" } = Astro.props;
 ---
 
 <article class:list={["constraint-card", className]}>
-  <span>{text}</span>
-  <strong>{number}</strong>
+  <div class="constraint-card-header">
+    <span class="constraint-card-title">{text}</span>
+    <strong>{number}</strong>
+  </div>
+  <p class="constraint-card-body">{body}</p>
 </article>
