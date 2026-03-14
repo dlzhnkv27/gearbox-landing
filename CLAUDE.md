@@ -237,6 +237,10 @@ Landing/
   - line-height: `1.4`
 - Body copy is hidden on mobile.
 
+## Accounts Section Rules
+- `Segregated Accounts` widens its centered subtitle through the `.accounts-title` modifier.
+- Desktop subtitle max-width for this section is `960px` so the current copy stays on one line.
+
 ## Account Preview Rules
 - `Identified Person` must stay on one line and be centered both horizontally and vertically inside its pill.
 - `User Account` desktop label should use the Figma desktop coordinates from `Credit_Account_Preview` (`left: 129px; top: 53px`).
