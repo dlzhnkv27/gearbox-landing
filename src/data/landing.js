@@ -31,7 +31,7 @@ export const constraintsSection = {
   title: "On-chain assets —\noff-chain constraints",
   description:
     "Tokenised assets are not standard DeFi assets. They come with specific requirements. Traditional lending pools cannot handle this model. Gearbox was designed for such cases.",
-  graphic: "/assets/constraints/constraints-illustration.svg",
+  graphic: "/assets/constraints/constraints-cycles.svg",
   cards: [
     {
       className: "constraint-blue",

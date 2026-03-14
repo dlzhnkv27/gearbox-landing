@@ -22,6 +22,7 @@ Use this pattern before changing the desktop hero image, its overflow behavior, 
 - Asset: `public/assets/hero/hero-cityscape@2x.png`
 - Rendered desktop width: `1400px`
 - Overhang height: `93px`
+- Hero darkening overlay uses the same image bounds as the hero media and fades toward solid black as scroll progresses.
 - Lower shade overlay base height: `180px`
 - Text box width: `934px`
 - Text box right inset: `80px`
@@ -30,15 +31,14 @@ Use this pattern before changing the desktop hero image, its overflow behavior, 
 - Hero card keeps `border-radius` on the main surface only.
 - `hero-overhang` sits above the card and shows only the top strip.
 - `hero-image-base` is fixed to `right: 0` and `bottom: 0`.
-- `hero-shade` is scroll-driven: its bottom stays fixed while its top edge rises smoothly as page scroll progresses.
-- Current shade mapping is linear:
-  - progress `0` → extra height `0%` of hero height
-  - progress `0.1` → extra height `30%` of hero height
-  - progress `1` → extra height `300%` of hero height
-- Shade opacity is static:
+- `hero-overlay` is scroll-driven:
+  - progress `0` → opacity `0`
+  - progress `1` → opacity `1`
+- `hero-shade` is static and remains anchored to the bottom edge of the hero.
+- Shade gradient is static:
   - top stop `0`
-  - bottom stop `0.96`
-- Progress is derived from page scroll distance relative to the current hero height, so the gradient can visually extend beyond the image bounds while remaining clipped by the hero surface.
+  - bottom stop `1`
+- Overlay progress is derived from page scroll distance relative to the current hero height.
 - Because the rendered width stays fixed at `1400px`, narrowing the window crops the image from the left while the right edge stays locked.
 
 ### Why It Is Split Into Two Layers
@@ -53,9 +53,36 @@ Use this pattern before changing the desktop hero image, its overflow behavior, 
 ### When To Reopen This File
 - Before changing hero height, image crop, or image anchoring.
 - Before changing topbar/hero stacking order.
-- Before changing the scroll-driven lower gradient or its progress mapping.
+- Before changing the hero overlay darkening, the lower gradient, or their scroll/static behavior split.
 - Before replacing the hero asset with a different aspect ratio.
 - Before reworking border-radius or overflow behavior in the hero section.
+
+## Constraints Decorative Graphic
+
+Use this pattern before changing the decorative artwork in `Constraints`, the overflow mask behavior, or its motion.
+
+### Current Rules
+- Asset: `public/assets/constraints/constraints-cycles.svg`
+- The graphic lives directly under `constraints-panel`, not inside the text column.
+- `constraints-panel` masks the artwork with `overflow: hidden`.
+- Desktop size: `864px`
+- Tablet size: `672px`
+- Positioning rule:
+  - `left = -50%` of the current graphic width
+  - `bottom = -50%` of the current graphic width
+- Mobile: hidden
+
+### Motion Rules
+- The graphic rotates clockwise.
+- Duration: `72s`
+- Timing: `linear`
+- Loop: `infinite`
+- Under `prefers-reduced-motion: reduce`, rotation is disabled.
+
+### When To Reopen This File
+- Before changing the `Constraints` decorative asset.
+- Before changing the masked overflow behavior of the section.
+- Before changing the size, offset ratio, or placement anchor of the artwork.
 
 ## Footer Underlay
 

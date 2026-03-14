@@ -12,9 +12,10 @@ const { content } = Astro.props;
   data-motion-min-visible="150"
   data-motion-content="block-reveal"
 >
+  <img class="constraints-graphic" src={content.graphic} alt="" />
+
   <div class="constraints-copy">
     <SectionTitle title={content.title} subtitle={content.description} />
-    <img class="constraints-graphic" src={content.graphic} alt="" />
   </div>
 
   <div class="constraint-list">

@@ -404,9 +404,8 @@ button {
 
 .hero-card {
   --hero-image-overhang: 93px;
+  --hero-overlay-opacity: 0;
   --hero-shade-base-height: 180px;
-  --hero-shade-extra-height: 0px;
-  --hero-shade-progress: 0;
   position: relative;
   min-height: 680px;
   overflow: visible;
@@ -436,6 +435,7 @@ button {
 .hero-image {
   position: absolute;
   right: 0;
+  z-index: 0;
   width: 1400px;
   max-width: none;
   height: auto;
@@ -450,13 +450,21 @@ button {
   bottom: 0;
 }
 
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #000;
+  opacity: var(--hero-overlay-opacity);
+  pointer-events: none;
+}
+
 .hero-shade {
   position: absolute;
   inset: auto 0 0;
   z-index: 3;
-  height: calc(var(--hero-shade-base-height) + var(--hero-shade-extra-height));
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.96) 100%);
-  will-change: height;
+  height: var(--hero-shade-base-height);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
 }
 
 .hero-copy {
@@ -572,6 +580,7 @@ button {
 }
 
 .constraints-panel {
+  --constraints-graphic-size: 864px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 438px;
   gap: 24px;
@@ -582,8 +591,8 @@ button {
 }
 
 .constraints-copy {
-  position: relative;
   padding-right: 48px;
+  position: relative;
   z-index: 1;
 }
 
@@ -596,17 +605,23 @@ button {
 
 .constraints-graphic {
   position: absolute;
-  left: -132px;
-  bottom: -136px;
-  width: 535px;
-  opacity: 0.58;
+  left: calc(var(--constraints-graphic-size) * -0.5);
+  bottom: calc(var(--constraints-graphic-size) * -0.5);
+  z-index: 0;
+  width: var(--constraints-graphic-size);
+  max-width: none;
   pointer-events: none;
+  transform-origin: center;
+  animation: constraints-graphic-spin 72s linear infinite;
+  will-change: transform;
 }
 
 .constraint-list {
   display: grid;
   gap: 24px;
   align-content: start;
+  position: relative;
+  z-index: 1;
 }
 
 .constraint-card {
@@ -1137,7 +1152,22 @@ button {
   }
 }
 
+@keyframes constraints-graphic-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .constraints-graphic {
+    animation: none;
+    transform: none;
+  }
+
   .partner-track {
     animation: none;
     transform: translate3d(0, 0, 0);
@@ -1626,6 +1656,7 @@ button {
   }
 
   .constraints-panel {
+    --constraints-graphic-size: 672px;
     grid-template-columns: 1fr;
     min-height: auto;
   }
@@ -1648,12 +1679,6 @@ button {
     --section-title-line-height: 1.12;
     --section-subtitle-size: 18px;
     --section-subtitle-line-height: 1.45;
-  }
-
-  .constraints-graphic {
-    left: -56px;
-    bottom: -260px;
-    width: 420px;
   }
 
   .constraint-card {

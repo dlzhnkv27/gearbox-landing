@@ -83,29 +83,42 @@
 - Current edge fade: `32px` per side.
 - Disable the animation under `prefers-reduced-motion: reduce`.
 
-## Scroll-Driven Shade Pattern
-- Reference: bottom gradient in `hero`
+## Scroll-Driven Hero Darkening Pattern
+- Reference: solid black overlay in `hero`
 - Use a continuous scroll-progress value, not stepped thresholds.
-- Keep the shade anchored to the bottom edge of the component and grow it upward.
+- Keep the overlay mapped directly to hero scroll progress.
 
 ### Current reference settings
 - Progress source: `window.scrollY / hero height`
 - Progress clamp: `0..1`
-- Base height:
+- Overlay mapping:
+  - progress `0` → opacity `0`
+  - progress `1` → opacity `1`
+- The lower hero gradient is no longer scroll-driven. It stays static at:
   - Desktop: `180px`
   - Tablet: `130px`
   - Mobile: `138px`
-- Extra height mapping: every `10%` scroll progress adds `30%` of hero height
-- Extra height at progress `1`: `300%` of the current hero height
-- Gradient opacity stays static:
   - top stop: `0`
-  - bottom stop: `0.96`
+  - bottom stop: `1`
 
 ### Behavior rules
-- Downward scroll: increase shade height smoothly as progress grows.
-- Upward scroll: reduce shade height smoothly as progress decreases.
-- The top edge of the shade may extend beyond the original image area; the visible result stays clipped by the hero surface.
-- Under `prefers-reduced-motion: reduce`, keep the shade at its base height with no scroll response.
+- Downward scroll: increase overlay opacity smoothly as progress grows.
+- Upward scroll: reduce overlay opacity smoothly as progress decreases.
+- Under `prefers-reduced-motion: reduce`, keep the overlay at `0` opacity with no scroll response.
+
+## Decorative Spin Pattern
+- Reference: `Constraints` cycles artwork
+- Use for slow decorative background rotation only, not for primary content.
+
+### Current reference settings
+- Direction: clockwise
+- Duration: `72s`
+- Timing: `linear`
+- Iteration: `infinite`
+
+### Behavior rules
+- Decorative spin must remain subtle and slow enough to read as atmospheric motion, not as interactive feedback.
+- Disable the rotation under `prefers-reduced-motion: reduce`.
 
 ## Implementation Rule
 - If a new motion request matches one of these patterns, extend the existing hooks and timing tokens instead of inventing a new custom animation model.

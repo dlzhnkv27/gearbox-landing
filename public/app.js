@@ -14,16 +14,14 @@ const updateHeroShade = () => {
   }
 
   if (prefersReducedMotion.matches) {
-    heroCard.style.setProperty("--hero-shade-progress", "0");
-    heroCard.style.setProperty("--hero-shade-extra-height", "0px");
+    heroCard.style.setProperty("--hero-overlay-opacity", "0");
     return;
   }
 
   const heroHeight = Math.max(heroCard.offsetHeight, 1);
   const progress = clamp(window.scrollY / heroHeight, 0, 1);
 
-  heroCard.style.setProperty("--hero-shade-progress", progress.toFixed(4));
-  heroCard.style.setProperty("--hero-shade-extra-height", `${(heroHeight * progress * 3).toFixed(2)}px`);
+  heroCard.style.setProperty("--hero-overlay-opacity", progress.toFixed(4));
 };
 
 const scheduleHeroShadeUpdate = () => {

@@ -37,8 +37,8 @@ Landing/
 - Keep documentation aligned with the implemented state, not the previous design discussion.
 
 ## Reference Docs
-- [`MOTION.md`](./MOTION.md) — open this before adding or changing scroll reveals, staggered entrances, hover motion, or marquee loops. Use it for motion principles, current timing values, and reusable data-attribute patterns.
-- [`layout.md`](./layout.md) — open this before changing hero overflow, hero scroll-driven shade behavior, footer underlay/full-bleed behavior, anchored media behavior, topbar/hero stacking, or desktop image cropping rules.
+- [`MOTION.md`](./MOTION.md) — open this before adding or changing scroll reveals, staggered entrances, hover motion, marquee loops, or slow decorative rotations. Use it for motion principles, current timing values, and reusable data-attribute patterns.
+- [`layout.md`](./layout.md) — open this before changing hero overflow, hero overlay/gradient behavior, footer underlay/full-bleed behavior, anchored media behavior, topbar/hero stacking, desktop image cropping rules, or the decorative `Constraints` artwork.
 
 ## Figma Source
 - **File**: "Gearbox Landing 12" (Figma Desktop MCP)
@@ -199,16 +199,25 @@ Landing/
 ## When to Use Motion Reference
 - Open [`MOTION.md`](./MOTION.md) before introducing any new viewport reveal or stagger logic.
 - Open [`MOTION.md`](./MOTION.md) before changing button hover or arrow micro-interactions.
+- Open [`MOTION.md`](./MOTION.md) before changing slow decorative looping motion such as the `Constraints` cycles artwork.
 - On reverse scroll, reveal patterns should show content immediately on intersection instead of waiting for downward thresholds.
 - Reuse the documented motion hooks and timing values unless the design explicitly requires a new pattern.
 
 ## When to Use Layout Reference
 - Open [`layout.md`](./layout.md) before changing the desktop hero image behavior.
 - Open [`layout.md`](./layout.md) before touching protruding media, right-anchored crops, or hero/topbar layer order.
-- Open [`layout.md`](./layout.md) before changing the lower hero gradient, its scroll mapping, or the way the shade grows with scroll.
-- Hero shade changes must keep the growth mapping and static gradient values documented together, since they are one scroll-driven pattern.
+- Open [`layout.md`](./layout.md) before changing the hero darkening overlay, the lower hero gradient, or their current scroll/static split.
+- Open [`layout.md`](./layout.md) before changing the `Constraints` decorative artwork, its masked overflow, or its placement anchor.
 - Open [`layout.md`](./layout.md) before changing the footer background termination, full-bleed underlay, or bottom-of-page color treatment.
 - Reuse the documented desktop hero pattern unless the design explicitly requires a different composition.
+
+## Constraints Section Rules
+- `Constraints` uses `public/assets/constraints/constraints-cycles.svg` as a decorative underlay.
+- The artwork sits on the `constraints-panel`, not inside the text column.
+- The panel itself is the mask through `overflow: hidden`.
+- Desktop size: `864px`; tablet size: `672px`; mobile: hidden.
+- Placement rule: offset the artwork by `-50%` of its current width on both `left` and `bottom`.
+- Motion rule: clockwise rotation, `72s linear infinite`, disabled under `prefers-reduced-motion: reduce`.
 
 ## Account Preview Rules
 - `Identified Person` must stay on one line and be centered both horizontally and vertically inside its pill.
