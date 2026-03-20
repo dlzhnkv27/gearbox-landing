@@ -19,7 +19,7 @@ Use this pattern before changing the desktop hero image, its overflow behavior, 
 - Both layers use the same local source from `src/data/landing.js`.
 
 ### Current Desktop Rules
-- Asset: `public/assets/hero/hero-cityscape@2x.png`
+- Asset: `public/assets/hero/hero-cityscape@2x.avif`
 - Rendered desktop width: `1400px`
 - Overhang height: `93px`
 - Hero darkening overlay uses the same image bounds as the hero media and is masked by the hero image alpha on desktop.
