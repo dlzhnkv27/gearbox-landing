@@ -38,6 +38,36 @@ Landing/
 - Update [`layout.md`](./layout.md) after changing hero composition, hero scroll-driven shade behavior, footer underlay behavior, overflow behavior, anchored media rules, or other layout patterns that are meant to be reused.
 - Keep documentation aligned with the implemented state, not the previous design discussion.
 
+## External Data Rules
+- Do not bind UI components directly to external API response shapes.
+- Treat external data in 4 layers:
+  - `source layer`: fetch raw payloads from the remote endpoint
+  - `mapping / normalization layer`: convert the remote payload into stable project-local keys
+  - `formatting layer`: convert raw numbers into display strings such as compact currency, compact counts, percentages, years
+  - `view-model layer`: prepare the exact UI-facing structure that a section needs
+- Prefer stable internal field names even if the external API naming changes.
+- Keep formatting logic out of `.astro` templates and out of section markup. Components should render already-mapped values or values with an explicit formatter key.
+- Store successfully fetched values as raw data, not only as already formatted display strings.
+- When using browser-side persistence, save a versioned cache object shaped like:
+  - `version`
+  - `updatedAt`
+  - `data`
+- For landing metrics, use a `stale-while-revalidate` pattern:
+  - render static fallback values from `src/data/landing.js`
+  - hydrate from the last successful local cache if present
+  - request fresh data from the API in the background
+  - show a lightweight loading indicator while fresh data is being requested
+  - replace the UI and refresh the cache after a successful response
+  - keep cached or fallback values visible if the refresh fails
+- If an external API requires secrets or does not allow browser CORS, do not call it directly from the client. Add a proxy/server endpoint first.
+- New remote fields should be added by extending the mapper/config, not by hardcoding fetch logic inside individual sections.
+- Current reference implementation:
+  - `stats-strip`
+  - source: `stakingStats`
+  - endpoint: `https://charts-server.fly.dev/api/staking_stats`
+  - field: `txVolume`
+  - formatter: `currencyCompactPlus`
+
 ## Reference Docs
 - [`MOTION.md`](./MOTION.md) — open this before adding or changing scroll reveals, staggered entrances, hover motion, marquee loops, or slow decorative rotations. Use it for motion principles, current timing values, and reusable data-attribute patterns.
 - [`layout.md`](./layout.md) — open this before changing hero overflow, hero overlay/gradient behavior, footer underlay/full-bleed behavior, anchored media behavior, topbar/hero stacking, desktop image cropping rules, or the decorative `Constraints` artwork.

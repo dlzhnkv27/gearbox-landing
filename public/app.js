@@ -4,6 +4,7 @@ const mobileMenu = document.getElementById("mobile-menu");
 const menuLinks = mobileMenu ? mobileMenu.querySelectorAll("a") : [];
 const heroCard = document.querySelector(".hero-card");
 const constraintLists = Array.from(document.querySelectorAll(".constraint-list"));
+const statValueNodes = Array.from(document.querySelectorAll("[data-stat-key]"));
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let heroShadeFrame = 0;
 
@@ -47,6 +48,206 @@ const closeMenu = () => {
   document.body.classList.remove("menu-open");
 };
 
+const statFormatters = {
+  currencyCompactPlus(value) {
+    if (!Number.isFinite(value)) {
+      return null;
+    }
+
+    const absValue = Math.abs(value);
+    const units = [
+      { value: 1e12, suffix: "T" },
+      { value: 1e9, suffix: "B" },
+      { value: 1e6, suffix: "M" },
+      { value: 1e3, suffix: "K" },
+    ];
+    const matchedUnit = units.find((unit) => absValue >= unit.value);
+
+    if (!matchedUnit) {
+      return `$${Math.round(value).toLocaleString("en-US")}+`;
+    }
+
+    const compactValue = value / matchedUnit.value;
+    const maximumFractionDigits = Math.abs(compactValue) >= 100 ? 0 : 1;
+    const formattedValue = compactValue.toLocaleString("en-US", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits,
+    });
+
+    return `$${formattedValue}${matchedUnit.suffix}+`;
+  },
+};
+
+const statSourceConfigs = {
+  stakingStats: {
+    endpoint: "https://charts-server.fly.dev/api/staking_stats",
+    cacheKey: "gearbox-landing:stats:staking:v1",
+    normalize(payload) {
+      const txVolume = Number(payload?.txVolume);
+
+      if (!Number.isFinite(txVolume)) {
+        return null;
+      }
+
+      return { txVolume };
+    },
+  },
+};
+
+const applyStatValue = (node, rawValue) => {
+  const formatter = statFormatters[node.dataset.statFormat || ""];
+
+  if (!formatter) {
+    node.textContent = String(rawValue);
+    return;
+  }
+
+  const formattedValue = formatter(rawValue);
+
+  if (!formattedValue) {
+    return;
+  }
+
+  node.textContent = formattedValue;
+};
+
+const getStatBindingsBySource = () => {
+  const bindings = new Map();
+
+  statValueNodes.forEach((node) => {
+    const source = node.dataset.statSource;
+    const key = node.dataset.statKey;
+
+    if (!source || !key) {
+      return;
+    }
+
+    if (!bindings.has(source)) {
+      bindings.set(source, []);
+    }
+
+    bindings.get(source).push({
+      node,
+      key,
+      card: node.closest("[data-stat-card]"),
+    });
+  });
+
+  return bindings;
+};
+
+const readStatCache = (cacheKey) => {
+  try {
+    const cachedValue = window.localStorage.getItem(cacheKey);
+
+    if (!cachedValue) {
+      return null;
+    }
+
+    const parsedValue = JSON.parse(cachedValue);
+
+    if (!parsedValue || typeof parsedValue !== "object" || !parsedValue.data) {
+      return null;
+    }
+
+    return parsedValue;
+  } catch {
+    return null;
+  }
+};
+
+const writeStatCache = (cacheKey, data) => {
+  try {
+    window.localStorage.setItem(
+      cacheKey,
+      JSON.stringify({
+        version: 1,
+        updatedAt: new Date().toISOString(),
+        data,
+      }),
+    );
+  } catch {
+    // Ignore storage failures and keep the current DOM state.
+  }
+};
+
+const applyStatSnapshot = (bindings, snapshot) => {
+  bindings.forEach(({ node, key }) => {
+    const rawValue = snapshot?.[key];
+
+    if (!Number.isFinite(rawValue)) {
+      return;
+    }
+
+    applyStatValue(node, rawValue);
+  });
+};
+
+const setStatLoadingState = (bindings, isLoading) => {
+  bindings.forEach(({ card }) => {
+    if (!card) {
+      return;
+    }
+
+    card.classList.toggle("is-stat-loading", isLoading);
+    card.setAttribute("aria-busy", isLoading ? "true" : "false");
+  });
+};
+
+const hydrateRemoteStats = () => {
+  if (statValueNodes.length === 0) {
+    return;
+  }
+
+  const bindingsBySource = getStatBindingsBySource();
+
+  bindingsBySource.forEach(async (bindings, source) => {
+    const sourceConfig = statSourceConfigs[source];
+
+    if (!sourceConfig) {
+      return;
+    }
+
+    const cachedSnapshot = readStatCache(sourceConfig.cacheKey);
+
+    if (cachedSnapshot?.data) {
+      applyStatSnapshot(bindings, cachedSnapshot.data);
+    }
+
+    setStatLoadingState(bindings, true);
+
+    try {
+      const response = await fetch(sourceConfig.endpoint, {
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+
+      const payload = await response.json();
+      const normalizedSnapshot = sourceConfig.normalize(payload);
+
+      if (!normalizedSnapshot) {
+        throw new Error("API payload did not produce a valid stat snapshot");
+      }
+
+      applyStatSnapshot(bindings, normalizedSnapshot);
+      writeStatCache(sourceConfig.cacheKey, normalizedSnapshot);
+    } catch {
+      bindings.forEach(({ node }) => {
+        if (!node.textContent?.trim()) {
+          node.textContent = node.dataset.statFallback || "";
+        }
+      });
+    } finally {
+      setStatLoadingState(bindings, false);
+    }
+  });
+};
+
 const openMenu = () => {
   if (!menuToggle || !mobileMenu) {
     return;
@@ -76,6 +277,8 @@ if (menuClose) {
 menuLinks.forEach((link) => {
   link.addEventListener("click", closeMenu);
 });
+
+hydrateRemoteStats();
 
 window.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {

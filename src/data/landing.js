@@ -22,7 +22,13 @@ export const hero = {
 };
 
 export const stats = [
-  { value: "$12B+", label: "Transaction Volume" },
+  {
+    value: "$12B+",
+    label: "Transaction Volume",
+    apiSource: "stakingStats",
+    apiField: "txVolume",
+    apiFormat: "currencyCompactPlus",
+  },
   { value: "$3M+", label: "Spent on Security" },
   { value: "2021", label: "Battle Tested Since" },
 ];
@@ -37,25 +43,29 @@ export const constraintsSection = {
       className: "constraint-blue",
       text: "Regulatory and KYC requirements",
       number: "01",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      body:
+        "Gearbox segregated accounts function as standard wallets, meaning token-level whitelists and transfer restrictions apply natively. The absence of wrappers or synthetic representations ensures that issuer-side compliance controls cannot be circumvented.",
     },
     {
       className: "constraint-violet",
       text: "Custom Deposit and Redemption mechanics",
       number: "02",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      body:
+        "Rather than requiring tokenised securities to conform to standardised execution and settlement flows, Gearbox adapts to each asset's underlying mechanics — delivering the experience of a simple wallet with built-in credit.",
     },
     {
       className: "constraint-green",
       text: "Off-chain financial logic from issuers",
       number: "03",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      body:
+        "Gearbox treats assets as more than ERC-20 tokens. Tokenised securities can carry complex properties — account-specific permissions, time-bound lifecycle states, transfer restrictions — enabling bespoke credit and risk logic tailored to each instrument.",
     },
     {
       className: "constraint-gray",
       text: "Legal enforcement workflows",
       number: "04",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      body:
+        "Gearbox's modular architecture enables additional enforcement logic without rewriting core contracts. Capabilities such as per-account freezes, ownership transfers, and issuer-specific compliance actions can be deployed as lightweight modules.",
     },
   ],
 };

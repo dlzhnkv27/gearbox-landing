@@ -561,6 +561,13 @@ button {
   text-align: inherit;
 }
 
+.stat-pill-value {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .stat-pill strong {
   display: block;
   font-size: 40px;
@@ -568,12 +575,42 @@ button {
   line-height: 1;
 }
 
-.stat-pill span {
+.stat-pill-spinner {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 12px);
+  border: 2px solid rgba(13, 13, 13, 0.16);
+  border-top-color: var(--gray-950);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 160ms ease;
+  pointer-events: none;
+}
+
+.stat-pill.is-stat-loading .stat-pill-spinner {
+  opacity: 1;
+  animation: stat-pill-spinner 0.8s linear infinite;
+}
+
+.stat-pill-label {
   display: block;
   margin-top: 8px;
   color: var(--muted);
   font-size: 22px;
   line-height: 1;
+}
+
+@keyframes stat-pill-spinner {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
 }
 
 .motion-ready [data-motion-content="move-up-fade-in"].is-motion-pending {
@@ -1752,7 +1789,13 @@ button {
     font-size: 32px;
   }
 
-  .stat-pill span {
+  .stat-pill-spinner {
+    width: 18px;
+    height: 18px;
+    left: calc(100% + 10px);
+  }
+
+  .stat-pill-label {
     font-size: 18px;
   }
 
@@ -1981,28 +2024,36 @@ button {
     padding: 0 24px;
     display: grid;
     align-items: center;
-    text-align: left;
+    text-align: center;
     border-radius: 999px;
   }
 
   .stat-pill-copy {
-    width: 100%;
-    grid-template-columns: 1fr auto;
+    width: auto;
+    display: inline-flex;
     align-items: center;
-    column-gap: 12px;
-    justify-items: start;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .stat-pill-value {
+    order: 1;
   }
 
   .stat-pill strong {
-    order: 2;
-    justify-self: end;
     font-size: 16px;
   }
 
-  .stat-pill span {
-    order: 1;
+  .stat-pill-label {
+    order: 2;
     margin: 0;
     font-size: 16px;
+  }
+
+  .stat-pill-spinner {
+    width: 14px;
+    height: 14px;
+    left: calc(100% + 8px);
   }
 
   .motion-ready [data-motion-content="move-up-fade-in"].is-motion-pending {

@@ -12,13 +12,24 @@ const { stats } = Astro.props;
   {stats.map((item, index) => (
     <article
       class="stat-pill"
+      data-stat-card={item.apiField || undefined}
       data-motion-item
       data-motion-index={index}
       data-motion-content="move-up-fade-in"
     >
       <div class="stat-pill-copy">
-        <strong>{item.value}</strong>
-        <span>{item.label}</span>
+        <div class="stat-pill-value">
+          <strong
+            data-stat-source={item.apiSource || undefined}
+            data-stat-key={item.apiField || undefined}
+            data-stat-format={item.apiFormat || undefined}
+            data-stat-fallback={item.value}
+          >
+            {item.value}
+          </strong>
+          {item.apiField && <span class="stat-pill-spinner" aria-hidden="true"></span>}
+        </div>
+        <span class="stat-pill-label">{item.label}</span>
       </div>
     </article>
   ))}
