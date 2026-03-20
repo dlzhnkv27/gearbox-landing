@@ -3,5 +3,12 @@ const { partner, ariaHidden = false } = Astro.props;
 ---
 
 <span class="partner-pill">
-  <span class="partner-logo" aria-label={ariaHidden ? undefined : partner.name}></span>
+  <span class="partner-logo">
+    <img
+      src={partner.src}
+      alt={ariaHidden ? "" : `${partner.name} logo`}
+      loading="lazy"
+      decoding="async"
+    />
+  </span>
 </span>

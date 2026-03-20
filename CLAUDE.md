@@ -29,6 +29,8 @@ Landing/
 - Use human-readable filenames that describe the asset's role in the UI.
 - Do not keep UUID-style filenames for local project assets unless there is a temporary migration reason.
 - If an old export is kept only for reference, mark it clearly as `legacy` in the filename.
+- Imported product asset icons should live under `public/assets/tokens/` and partner logos under `public/assets/partners/`.
+- Imported security icons should live under `public/assets/security/` and be wired through the section data layer, not hardcoded in component markup.
 
 ## Documentation Sync
 - Update `CLAUDE.md` after structural changes to pages, components, styling source of truth, or project conventions.
@@ -164,6 +166,7 @@ Landing/
 - Comparison IDs for the side-by-side button pairs use the `2` postfix: e.g. `button-light-l2`, `button-dark-l2`.
 - Keep button variants grouped by visual family, and only pair variants together when they are a deliberate light/dark comparison set.
 - Every button size/variant combination needs its own unique `Component ID` in storybook.
+- Partner pill IDs should reflect the actual production brands currently rendered by the live data source.
 
 ## Component Naming (Figma → CSS)
 | Figma Component              | CSS Class              |
@@ -211,6 +214,21 @@ Landing/
 - Open [`layout.md`](./layout.md) before changing the `Constraints` decorative artwork, its masked overflow, or its placement anchor.
 - Open [`layout.md`](./layout.md) before changing the footer background termination, full-bleed underlay, or bottom-of-page color treatment.
 - Reuse the documented desktop hero pattern unless the design explicitly requires a different composition.
+
+## Trusted Partners Rules
+- `Trusted Partners` pills use production SVG logos, not neutral placeholders.
+- Logo slot size is `152×44` on desktop, `132×38` on tablet, and `108×31` on mobile.
+- Each pill should render one centered logo image with `object-fit: contain`; do not compose multi-part partner marks in CSS.
+
+## Security Section Rules
+- `SecurityCard` uses a dedicated icon base plus label structure.
+- The icon base is a `56×56` circle with background `var(--gray-950)`.
+- The security SVG lives inside that base as the foreground mark and should stay `object-fit: contain`.
+- Keep security icons sourced from `src/data/landing.js`, not hardcoded per card.
+
+## Scroll Rules
+- Page-local anchor links should use smooth scrolling by default.
+- Under `prefers-reduced-motion: reduce`, smooth scrolling should be disabled and the browser should fall back to immediate jumps.
 
 ## Constraints Section Rules
 - `Constraints` uses `public/assets/constraints/constraints-cycles.svg` as a decorative underlay.

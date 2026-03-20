@@ -167,9 +167,9 @@ export const partnersSection = {
   title: "Trusted Partners",
   partners: [
     {
-      name: "Balancer",
+      name: "Pendle",
       type: "single",
-      src: "/assets/partners/partner-balancer.svg",
+      src: "/assets/partners/partner-pendle.svg",
     },
     {
       name: "Lido",
@@ -177,25 +177,24 @@ export const partnersSection = {
       src: "/assets/partners/partner-lido.svg",
     },
     {
-      name: "Fuel",
-      type: "fuel",
-      mark: "/assets/partners/partner-fuel-mark.svg",
-      word: "/assets/partners/partner-fuel-wordmark.svg",
+      name: "Renzo",
+      type: "single",
+      src: "/assets/partners/partner-renzo.svg",
     },
     {
-      name: "Marginly",
+      name: "Convex",
       type: "single",
-      src: "/assets/partners/partner-marginly.svg",
+      src: "/assets/partners/partner-convex.svg",
     },
     {
-      name: "Swell",
+      name: "Ethena",
       type: "single",
-      src: "/assets/partners/partner-swell.svg",
+      src: "/assets/partners/partner-ethena.svg",
     },
     {
-      name: "Zircuit",
+      name: "Curve",
       type: "single",
-      src: "/assets/partners/partner-zircuit.svg",
+      src: "/assets/partners/partner-curve.svg",
     },
   ],
   testimonials: Array.from({ length: 3 }, () => ({
@@ -225,15 +224,19 @@ export const productsSection = {
       assets: [
         {
           type: "image",
-          src: "/assets/tokens/token-usdc.svg",
-          alt: "USDC",
+          src: "/assets/tokens/product-asset-1.svg",
+          alt: "Supported asset 1",
         },
         {
           type: "image",
-          src: "/assets/tokens/token-savings-asset.svg",
-          alt: "Asset",
+          src: "/assets/tokens/product-asset-2.svg",
+          alt: "Supported asset 2",
         },
-        { type: "chip", label: "ETH" },
+        {
+          type: "image",
+          src: "/assets/tokens/product-asset-3.svg",
+          alt: "Supported asset 3",
+        },
       ],
       ctaLabel: "Start Earning",
       ctaArrow: true,
@@ -251,16 +254,20 @@ export const productsSection = {
       ],
       assetsLabel: "Collateral Types",
       assets: [
-        { type: "chip", label: "ETH" },
         {
           type: "image",
-          src: "/assets/tokens/token-btcb.svg",
-          alt: "BTCB",
+          src: "/assets/tokens/product-asset-4.svg",
+          alt: "Collateral asset 1",
         },
         {
           type: "image",
-          src: "/assets/tokens/token-collateral-asset.svg",
-          alt: "Asset",
+          src: "/assets/tokens/product-asset-5.svg",
+          alt: "Collateral asset 2",
+        },
+        {
+          type: "image",
+          src: "/assets/tokens/product-asset-6.svg",
+          alt: "Collateral asset 3",
         },
       ],
       ctaLabel: "Apply for Account",
@@ -276,15 +283,15 @@ export const securitySection = {
     "Gearbox has been live since 2021 with 0 breaches and incidents. Safety and security-first are at the core of our vision.",
   cards: [
     {
-      icon: "/assets/security/security-live-bug-bounty.svg",
+      icon: "/assets/security/security-icon-1.svg",
       label: "Live Bug Bounty",
     },
     {
-      icon: "/assets/security/security-audits.svg",
+      icon: "/assets/security/security-icon-2.svg",
       label: "30+ Audits by leading firms",
     },
     {
-      icon: "/assets/security/security-institutions.svg",
+      icon: "/assets/security/security-icon-3.svg",
       label: "Curated by top-tier institutions",
     },
   ],

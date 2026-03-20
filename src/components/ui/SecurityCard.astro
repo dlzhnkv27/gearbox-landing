@@ -3,6 +3,8 @@ const { card } = Astro.props;
 ---
 
 <article class="security-card">
-  <img src={card.icon} alt="" />
-  <span>{card.label}</span>
+  <span class="security-card-icon" aria-hidden="true">
+    <img src={card.icon} alt="" />
+  </span>
+  <span class="security-card-label">{card.label}</span>
 </article>

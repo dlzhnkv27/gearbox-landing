@@ -2,7 +2,7 @@
 const { hero } = Astro.props;
 ---
 
-<section class="hero-card">
+<section class="hero-card" style={`--hero-mask-image: url("${hero.image}")`}>
   <div class="hero-overhang" aria-hidden="true">
     <img class="hero-image hero-image-overhang" src={hero.image} alt="" width="2800" height="1546" />
     <div class="hero-overlay hero-overlay-overhang"></div>

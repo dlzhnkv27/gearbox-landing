@@ -83,7 +83,7 @@
 - Disable the animation under `prefers-reduced-motion: reduce`.
 
 ## Scroll-Driven Hero Darkening Pattern
-- Reference: solid black overlay in `hero`
+- Reference: masked multiply overlay in `hero`
 - Use a continuous scroll-progress value, not stepped thresholds.
 - Keep the overlay mapped directly to hero scroll progress.
 
@@ -93,6 +93,8 @@
 - Overlay mapping:
   - progress `0` → opacity `0`
   - progress `1` → opacity `1`
+- Blend mode: `multiply`
+- On desktop, the overlay is masked by the hero image alpha so darkening does not spill into transparent areas of the overhang.
 - The lower hero gradient is no longer scroll-driven. It stays static at:
   - Desktop: `180px`
   - Tablet: `130px`

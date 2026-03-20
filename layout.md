@@ -22,7 +22,7 @@ Use this pattern before changing the desktop hero image, its overflow behavior, 
 - Asset: `public/assets/hero/hero-cityscape@2x.png`
 - Rendered desktop width: `1400px`
 - Overhang height: `93px`
-- Hero darkening overlay uses the same image bounds as the hero media and fades toward solid black as scroll progresses.
+- Hero darkening overlay uses the same image bounds as the hero media and is masked by the hero image alpha on desktop.
 - Lower shade overlay base height: `180px`
 - Text box width: `934px`
 - Text box right inset: `80px`
@@ -34,6 +34,10 @@ Use this pattern before changing the desktop hero image, its overflow behavior, 
 - `hero-overlay` is scroll-driven:
   - progress `0` → opacity `0`
   - progress `1` → opacity `1`
+- `hero-overlay` uses `mix-blend-mode: multiply`.
+- On desktop, `hero-overlay` is clipped by the same image asset via CSS `mask-image` / `-webkit-mask-image`:
+  - overhang mask position: `right top`
+  - surface mask position: `right bottom`
 - `hero-shade` is static and remains anchored to the bottom edge of the hero.
 - Shade gradient is static:
   - top stop `0`
