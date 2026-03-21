@@ -308,7 +308,7 @@ export const securitySection = {
 };
 
 export const footerSection = {
-  background: "/assets/footer/footer-background.png",
+  background: "/assets/footer/footer-background.jpg",
   title: "Compliant on-chain credit for tokenised assets",
   actions: [
     { label: "Request a Demo", href: "#demo", variant: "light", size: "l", arrow: true },

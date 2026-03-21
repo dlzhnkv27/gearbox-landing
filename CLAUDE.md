@@ -293,11 +293,10 @@ Landing/
 ## Account Preview Rules
 - `Identified Person` must stay on one line and be centered both horizontally and vertically inside its pill.
 - `User Account` desktop label should use the Figma desktop coordinates from `Credit_Account_Preview` (`left: 129px; top: 53px`).
-- Desktop tab geometry should use the local Figma-derived assets `account-preview-tab-collateral.svg` and `account-preview-tab-debt.svg`, not hand-drawn CSS or stretched background approximations.
-- Desktop tab labels should follow Figma coordinates inside their tab containers in the current layout:
-  - `Collateral`: `left: 68px; top: 17px`
-  - `Debt`: `left: 62px; top: 17px`
-- Desktop tab containers should follow Figma coordinates:
-  - `Collateral`: `left: 18.74px; top: 110px; width: 188.264px; height: 54px`
-  - `Debt`: `left: 211px; top: 110px; width: 188.264px; height: 54px`
+- Desktop pill geometry should use the single local asset `account-preview-pill.svg`; do not reconstruct the pill from separate tab SVGs, hand-drawn CSS, or stretched background approximations.
+- `Collateral` and `Debt` should stay as overlaid text layers on top of the single pill SVG, not baked into component CSS geometry.
+- Desktop tab labels should keep their current overlaid layout:
+  - both labels use `width: 188.264px` and `text-align: center`
+  - `Collateral`: `left: 18.74px; top: 127px; transform: translateX(15.06px)`
+  - `Debt`: `left: 211px; top: 127px; transform: translateX(-15.06px)`
 - `Eligibility Check` desktop label should use the current Figma desktop coordinates inside the canvas (`left: 147px; top: 255px`).
