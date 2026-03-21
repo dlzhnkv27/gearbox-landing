@@ -22,6 +22,14 @@ const { brandAssets, navigation, mobileNavigation } = Astro.props;
     className="desktop-app"
   />
 
+  <ButtonLink
+    href="#app"
+    label="dApp"
+    variant="light"
+    size="l"
+    className="mobile-app"
+  />
+
   <button
     id="menu-toggle"
     class="menu-toggle"
@@ -37,18 +45,6 @@ const { brandAssets, navigation, mobileNavigation } = Astro.props;
 </header>
 
 <div id="mobile-menu" class="mobile-menu" hidden>
-  <div class="mobile-menu-header">
-    <BrandLogo wordmark={brandAssets.wordmark} icon={brandAssets.icon} />
-    <button
-      id="menu-close"
-      class="menu-close"
-      type="button"
-      aria-label="Close menu"
-    >
-      ×
-    </button>
-  </div>
-
   <nav class="mobile-menu-nav" aria-label="Mobile">
     {mobileNavigation.map((item) => (
       <a href={item.href}>{item.label}</a>

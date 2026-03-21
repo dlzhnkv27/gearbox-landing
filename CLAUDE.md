@@ -165,6 +165,14 @@ Landing/
 - **Tablet**: ≤1199px (max-width: 1024px container)
 - **Mobile**: ≤767px (max-width: 360px container)
 
+## Mobile Layout Rules
+- Mobile topbar must keep three visible elements in one horizontal row: menu button on the left, logo centered, `dApp` button on the right.
+- The mobile menu uses the same topbar menu button for open and close states; the three bars morph into a close icon while the overlay is open.
+- Mobile menu button styling is a white `32×32` circle with black bars, matching the height of the mobile `dApp` button.
+- Mobile stats pills use a two-sided layout: label aligned left, value aligned right, spinner attached to the value side.
+- In mobile product cards, the `Supported Assets` / `Collateral Types` row stays on one line with the label on the left and the asset icons right-aligned.
+- In the mobile footer, each link group keeps its heading on a full-width first row and the links wrap horizontally beneath it. The footer title should use the full container width instead of a narrow max-width cap.
+
 ## Button System
 - `src/components/ui/ButtonLink.astro` is the single source of truth for button variants and sizes.
 - For new code use explicit button sizes via `size="l"` or `size="m"`. The old `small` prop is a compatibility alias for `m` and should not be used in new markup.

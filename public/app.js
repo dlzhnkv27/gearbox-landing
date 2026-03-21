@@ -1,5 +1,4 @@
 const menuToggle = document.getElementById("menu-toggle");
-const menuClose = document.getElementById("menu-close");
 const mobileMenu = document.getElementById("mobile-menu");
 const menuLinks = mobileMenu ? mobileMenu.querySelectorAll("a") : [];
 const heroCard = document.querySelector(".hero-card");
@@ -268,10 +267,6 @@ if (menuToggle && mobileMenu) {
 
     closeMenu();
   });
-}
-
-if (menuClose) {
-  menuClose.addEventListener("click", closeMenu);
 }
 
 menuLinks.forEach((link) => {
