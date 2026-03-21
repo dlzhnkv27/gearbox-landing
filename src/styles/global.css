@@ -1063,10 +1063,8 @@ button {
 
 .preview-tabs {
   position: absolute;
-  inset: 110px 18px 16px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
+  inset: 110px 0 auto;
+  height: 54px;
 }
 
 .preview-tabs::after {
@@ -1074,11 +1072,11 @@ button {
   position: absolute;
   left: 50%;
   top: 0;
-  bottom: 0;
-  width: 2px;
+  height: 54px;
+  width: 4px;
   transform: translateX(-50%);
-  border-radius: 1px;
-  background: rgba(13, 13, 13, 0.36);
+  border-radius: 2px;
+  background: rgba(13, 13, 13, 0.42);
 }
 
 .preview-tab {
@@ -1093,32 +1091,29 @@ button {
   color: #fff;
 }
 
-.preview-tab-shape {
+.preview-tab-collateral {
+  position: absolute;
+  left: 18.74px;
+  top: 0;
+  width: 188.264px;
+  height: 54px;
+}
+
+.preview-tab-debt {
+  position: absolute;
+  left: 211px;
+  top: 0;
+  width: 188.264px;
+  height: 54px;
+}
+
+.preview-tab-art {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   display: block;
-  shape-rendering: geometricPrecision;
-}
-
-.preview-tab-fill {
-  fill: #222;
-}
-
-.preview-tab-stroke {
-  fill: none;
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.preview-tab-stroke-debt {
-  stroke: #a9ffca;
-}
-
-.preview-tab-stroke-collateral {
-  stroke: #baabff;
+  object-fit: fill;
 }
 
 .preview-tab-label {
@@ -1127,26 +1122,23 @@ button {
   white-space: nowrap;
 }
 
-.preview-tab-label-debt {
+.preview-tab-collateral .preview-tab-label {
   left: 68px;
 }
 
-.preview-tab-label-collateral {
+.preview-tab-debt .preview-tab-label {
   left: 62px;
 }
 
 .preview-checkline {
   position: absolute;
-  left: 65px;
-  top: 255px;
+  inset: 0;
   z-index: 2;
-  width: 288px;
-  height: 16px;
 }
 
 .preview-dots {
   position: absolute;
-  top: 6px;
+  top: 263px;
   width: 74px;
   height: 4px;
   background-position: center;
@@ -1155,19 +1147,19 @@ button {
 }
 
 .preview-dots-left {
-  left: 0;
+  left: 65px;
   background-image: var(--preview-dots-left-image);
 }
 
 .preview-dots-right {
-  right: 0;
+  left: 279px;
   background-image: var(--preview-dots-right-image);
 }
 
 .preview-check-label {
   position: absolute;
-  left: 82px;
-  top: 0;
+  left: 147px;
+  top: 255px;
   z-index: 2;
   color: #0d0d0d;
   font-size: 16px;
@@ -1178,7 +1170,7 @@ button {
 
 .preview-badge {
   position: absolute;
-  left: 50%;
+  left: 122px;
   top: 352px;
   z-index: 3;
   width: 181px;
@@ -1194,7 +1186,6 @@ button {
   font-weight: 600;
   line-height: 1;
   text-align: center;
-  transform: translateX(-50%);
   white-space: nowrap;
 }
 
