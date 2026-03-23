@@ -225,10 +225,25 @@ export const productsSection = {
       title: "Long-term Savings",
       description: "Professionally managed passive yield for institutional allocators",
       rateValue: "8.5%",
+      rateApiSource: "stakingStats",
+      rateApiField: "savingsMaxApy",
+      rateApiFormat: "percentFixed1",
       rateLabel: "APY",
       metrics: [
-        { label: "Total Value Locked", value: "$125M" },
-        { label: "Utilization Rate", value: "78.3%" },
+        {
+          label: "Total Supply",
+          value: "$125M",
+          apiSource: "stakingStats",
+          apiField: "savingsTotalSupply",
+          apiFormat: "currencyCompact",
+        },
+        {
+          label: "Utilization Rate",
+          value: "78.3%",
+          apiSource: "stakingStats",
+          apiField: "savingsUtilizationRate",
+          apiFormat: "percentFixed1",
+        },
       ],
       assetsLabel: "Supported Assets",
       assets: [
@@ -259,8 +274,20 @@ export const productsSection = {
       rateValue: "10×",
       rateLabel: "MAX",
       metrics: [
-        { label: "Opened Accounts", value: "5,891" },
-        { label: "Total Borrowed", value: "$89M" },
+        {
+          label: "Opened Accounts",
+          value: "5,891",
+          apiSource: "creditManagersAllNetworks",
+          apiField: "primeOpenedAccounts",
+          apiFormat: "integerGrouped",
+        },
+        {
+          label: "Total Borrowed",
+          value: "$89M",
+          apiSource: "creditManagersAllNetworks",
+          apiField: "primeTotalBorrowed",
+          apiFormat: "currencyCompact",
+        },
       ],
       assetsLabel: "Collateral Types",
       assets: [

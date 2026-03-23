@@ -1380,7 +1380,35 @@ button {
   line-height: 1;
 }
 
-.product-rate span {
+.product-remote-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.product-rate .product-remote-value {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.product-value-spinner {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  border: 2px solid rgba(13, 13, 13, 0.16);
+  border-top-color: var(--gray-950);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.product-card.is-product-loading .product-value-spinner {
+  opacity: 1;
+  animation: stat-pill-spinner 0.8s linear infinite;
+}
+
+.product-rate > span {
   display: block;
   margin-top: 2px;
   font-size: 14px;
@@ -1400,7 +1428,7 @@ button {
   gap: 7px;
 }
 
-.metric-block span {
+.metric-block > span {
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
@@ -2286,6 +2314,11 @@ button {
     font-size: 24px;
   }
 
+  .product-value-spinner {
+    width: 12px;
+    height: 12px;
+  }
+
   .product-metrics {
     display: grid;
     gap: 8px;
@@ -2298,8 +2331,8 @@ button {
     gap: 8px 12px;
   }
 
-  .metric-block span,
-  .metric-block strong {
+  .metric-block > span,
+  .metric-block > strong {
     font-size: 15px;
     line-height: 1.4;
     letter-spacing: 0;

@@ -3,16 +3,34 @@ import ButtonLink from "./ButtonLink.astro";
 import TokenRow from "./TokenRow.astro";
 
 const { card, ctaHref = "#footer-links" } = Astro.props;
+const hasRemoteValues = Boolean(
+  card.rateApiField || card.metrics.some((metric) => metric.apiField),
+);
 ---
 
-<article class:list={["product-card", card.className]}>
+<article
+  class:list={["product-card", card.className]}
+  data-product-card={hasRemoteValues ? "true" : undefined}
+>
   <div class="product-top">
     <div>
       <h3>{card.title}</h3>
       <p>{card.description}</p>
     </div>
     <div class="product-rate">
-      <strong>{card.rateValue}</strong>
+      <strong>
+        <span class:list={[card.rateApiField && "product-remote-value"]}>
+          <span
+            data-product-source={card.rateApiSource || undefined}
+            data-product-key={card.rateApiField || undefined}
+            data-product-format={card.rateApiFormat || undefined}
+            data-product-fallback={card.rateValue}
+          >
+            {card.rateValue}
+          </span>
+          {card.rateApiField && <span class="product-value-spinner" aria-hidden="true"></span>}
+        </span>
+      </strong>
       <span>{card.rateLabel}</span>
     </div>
   </div>
@@ -21,7 +39,19 @@ const { card, ctaHref = "#footer-links" } = Astro.props;
     {card.metrics.map((metric) => (
       <div class="metric-block">
         <span>{metric.label}</span>
-        <strong>{metric.value}</strong>
+        <strong>
+          <span class:list={[metric.apiField && "product-remote-value"]}>
+            <span
+              data-product-source={metric.apiSource || undefined}
+              data-product-key={metric.apiField || undefined}
+              data-product-format={metric.apiFormat || undefined}
+              data-product-fallback={metric.value}
+            >
+              {metric.value}
+            </span>
+            {metric.apiField && <span class="product-value-spinner" aria-hidden="true"></span>}
+          </span>
+        </strong>
       </div>
     ))}
 

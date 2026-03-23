@@ -4,10 +4,46 @@ const menuLinks = mobileMenu ? mobileMenu.querySelectorAll("a") : [];
 const heroCard = document.querySelector(".hero-card");
 const constraintLists = Array.from(document.querySelectorAll(".constraint-list"));
 const statValueNodes = Array.from(document.querySelectorAll("[data-stat-key]"));
+const productValueNodes = Array.from(document.querySelectorAll("[data-product-key]"));
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let heroShadeFrame = 0;
+const pendingRemoteSnapshots = new Map();
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+const toFiniteNumber = (value) => {
+  const numericValue = Number(value);
+
+  return Number.isFinite(numericValue) ? numericValue : 0;
+};
+
+const formatCompactCurrency = (value, withPlus = false) => {
+  if (!Number.isFinite(value)) {
+    return null;
+  }
+
+  const absValue = Math.abs(value);
+  const units = [
+    { value: 1e12, suffix: "T" },
+    { value: 1e9, suffix: "B" },
+    { value: 1e6, suffix: "M" },
+    { value: 1e3, suffix: "K" },
+  ];
+  const matchedUnit = units.find((unit) => absValue >= unit.value);
+  const suffix = withPlus ? "+" : "";
+
+  if (!matchedUnit) {
+    return `$${Math.round(value).toLocaleString("en-US")}${suffix}`;
+  }
+
+  const compactValue = value / matchedUnit.value;
+  const maximumFractionDigits = Math.abs(compactValue) >= 100 ? 0 : 1;
+  const formattedValue = compactValue.toLocaleString("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits,
+  });
+
+  return `$${formattedValue}${matchedUnit.suffix}${suffix}`;
+};
 
 const updateHeroShade = () => {
   if (!heroCard) {
@@ -47,54 +83,98 @@ const closeMenu = () => {
   document.body.classList.remove("menu-open");
 };
 
-const statFormatters = {
+const remoteFormatters = {
   currencyCompactPlus(value) {
+    return formatCompactCurrency(value, true);
+  },
+
+  currencyCompact(value) {
+    return formatCompactCurrency(value, false);
+  },
+
+  integerGrouped(value) {
     if (!Number.isFinite(value)) {
       return null;
     }
 
-    const absValue = Math.abs(value);
-    const units = [
-      { value: 1e12, suffix: "T" },
-      { value: 1e9, suffix: "B" },
-      { value: 1e6, suffix: "M" },
-      { value: 1e3, suffix: "K" },
-    ];
-    const matchedUnit = units.find((unit) => absValue >= unit.value);
+    return Math.round(value).toLocaleString("en-US");
+  },
 
-    if (!matchedUnit) {
-      return `$${Math.round(value).toLocaleString("en-US")}+`;
+  percentFixed1(value) {
+    if (!Number.isFinite(value)) {
+      return null;
     }
 
-    const compactValue = value / matchedUnit.value;
-    const maximumFractionDigits = Math.abs(compactValue) >= 100 ? 0 : 1;
-    const formattedValue = compactValue.toLocaleString("en-US", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits,
-    });
-
-    return `$${formattedValue}${matchedUnit.suffix}+`;
+    return `${value.toLocaleString("en-US", {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    })}%`;
   },
 };
 
-const statSourceConfigs = {
+const remoteSourceConfigs = {
   stakingStats: {
     endpoint: "https://charts-server.fly.dev/api/staking_stats",
-    cacheKey: "gearbox-landing:stats:staking:v1",
+    cacheKey: "gearbox-landing:remote:staking:v3",
     normalize(payload) {
       const txVolume = Number(payload?.txVolume);
+      const supportedVaults = Array.isArray(payload?.supportedVaults) ? payload.supportedVaults : [];
+      const savingsTotalSupply = supportedVaults.reduce(
+        (sum, vault) => sum + toFiniteNumber(vault?.balanceUSD),
+        0,
+      );
+      const savingsTotalBorrowed = supportedVaults.reduce(
+        (sum, vault) => sum + toFiniteNumber(vault?.borrowedUSD),
+        0,
+      );
+      const savingsMaxApy = supportedVaults.reduce((maxApy, vault) => {
+        const nextApy = toFiniteNumber(vault?.DepositApy ?? vault?.apr);
+
+        return Math.max(maxApy, nextApy);
+      }, 0);
+      const savingsUtilizationRate =
+        savingsTotalSupply > 0 ? (savingsTotalBorrowed / savingsTotalSupply) * 100 : null;
 
       if (!Number.isFinite(txVolume)) {
         return null;
       }
 
-      return { txVolume };
+      return {
+        txVolume,
+        savingsTotalSupply,
+        savingsTotalBorrowed,
+        savingsMaxApy,
+        savingsUtilizationRate,
+      };
+    },
+  },
+
+  creditManagersAllNetworks: {
+    endpoint: "https://charts-server.fly.dev/api/gearbox/credit_managers/aggregated/stats",
+    cacheKey: "gearbox-landing:remote:credit-managers-all-networks:v1",
+    normalize(payload) {
+      const creditManagers = Array.isArray(payload?.data) ? payload.data : [];
+
+      if (creditManagers.length === 0) {
+        return null;
+      }
+
+      return {
+        primeOpenedAccounts: creditManagers.reduce(
+          (sum, manager) => sum + toFiniteNumber(manager?.openedAccountsCount),
+          0,
+        ),
+        primeTotalBorrowed: creditManagers.reduce(
+          (sum, manager) => sum + toFiniteNumber(manager?.totalBorrowedInUSD),
+          0,
+        ),
+      };
     },
   },
 };
 
-const applyStatValue = (node, rawValue) => {
-  const formatter = statFormatters[node.dataset.statFormat || ""];
+const applyRemoteValue = (node, rawValue) => {
+  const formatter = remoteFormatters[node.dataset.statFormat || node.dataset.productFormat || ""];
 
   if (!formatter) {
     node.textContent = String(rawValue);
@@ -110,12 +190,12 @@ const applyStatValue = (node, rawValue) => {
   node.textContent = formattedValue;
 };
 
-const getStatBindingsBySource = () => {
+const getRemoteBindingsBySource = (nodes, sourceAttribute, keyAttribute, cardSelector) => {
   const bindings = new Map();
 
-  statValueNodes.forEach((node) => {
-    const source = node.dataset.statSource;
-    const key = node.dataset.statKey;
+  nodes.forEach((node) => {
+    const source = node.dataset[sourceAttribute];
+    const key = node.dataset[keyAttribute];
 
     if (!source || !key) {
       return;
@@ -128,14 +208,27 @@ const getStatBindingsBySource = () => {
     bindings.get(source).push({
       node,
       key,
-      card: node.closest("[data-stat-card]"),
+      card: node.closest(cardSelector),
     });
   });
 
   return bindings;
 };
 
-const readStatCache = (cacheKey) => {
+const getStatBindingsBySource = () => {
+  return getRemoteBindingsBySource(statValueNodes, "statSource", "statKey", "[data-stat-card]");
+};
+
+const getProductBindingsBySource = () => {
+  return getRemoteBindingsBySource(
+    productValueNodes,
+    "productSource",
+    "productKey",
+    "[data-product-card]",
+  );
+};
+
+const readRemoteCache = (cacheKey) => {
   try {
     const cachedValue = window.localStorage.getItem(cacheKey);
 
@@ -155,7 +248,7 @@ const readStatCache = (cacheKey) => {
   }
 };
 
-const writeStatCache = (cacheKey, data) => {
+const writeRemoteCache = (cacheKey, data) => {
   try {
     window.localStorage.setItem(
       cacheKey,
@@ -170,7 +263,7 @@ const writeStatCache = (cacheKey, data) => {
   }
 };
 
-const applyStatSnapshot = (bindings, snapshot) => {
+const applyRemoteSnapshot = (bindings, snapshot) => {
   bindings.forEach(({ node, key }) => {
     const rawValue = snapshot?.[key];
 
@@ -178,18 +271,86 @@ const applyStatSnapshot = (bindings, snapshot) => {
       return;
     }
 
-    applyStatValue(node, rawValue);
+    applyRemoteValue(node, rawValue);
   });
 };
 
-const setStatLoadingState = (bindings, isLoading) => {
+const setRemoteLoadingState = (bindings, isLoading, loadingClass) => {
   bindings.forEach(({ card }) => {
     if (!card) {
       return;
     }
 
-    card.classList.toggle("is-stat-loading", isLoading);
+    card.classList.toggle(loadingClass, isLoading);
     card.setAttribute("aria-busy", isLoading ? "true" : "false");
+  });
+};
+
+const fetchRemoteSnapshot = async (source, sourceConfig) => {
+  if (pendingRemoteSnapshots.has(source)) {
+    return pendingRemoteSnapshots.get(source);
+  }
+
+  const request = (async () => {
+    const response = await fetch(sourceConfig.endpoint, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const payload = await response.json();
+    const normalizedSnapshot = sourceConfig.normalize(payload);
+
+    if (!normalizedSnapshot) {
+      throw new Error("API payload did not produce a valid remote snapshot");
+    }
+
+    writeRemoteCache(sourceConfig.cacheKey, normalizedSnapshot);
+
+    return normalizedSnapshot;
+  })();
+
+  pendingRemoteSnapshots.set(source, request);
+
+  try {
+    return await request;
+  } finally {
+    pendingRemoteSnapshots.delete(source);
+  }
+};
+
+const hydrateRemoteBindings = (bindingsBySource, loadingClass, fallbackAttribute) => {
+  bindingsBySource.forEach(async (bindings, source) => {
+    const sourceConfig = remoteSourceConfigs[source];
+
+    if (!sourceConfig) {
+      return;
+    }
+
+    const cachedSnapshot = readRemoteCache(sourceConfig.cacheKey);
+
+    if (cachedSnapshot?.data) {
+      applyRemoteSnapshot(bindings, cachedSnapshot.data);
+    }
+
+    setRemoteLoadingState(bindings, true, loadingClass);
+
+    try {
+      const normalizedSnapshot = await fetchRemoteSnapshot(source, sourceConfig);
+      applyRemoteSnapshot(bindings, normalizedSnapshot);
+    } catch {
+      bindings.forEach(({ node }) => {
+        if (!node.textContent?.trim()) {
+          node.textContent = node.dataset[fallbackAttribute] || "";
+        }
+      });
+    } finally {
+      setRemoteLoadingState(bindings, false, loadingClass);
+    }
   });
 };
 
@@ -198,53 +359,15 @@ const hydrateRemoteStats = () => {
     return;
   }
 
-  const bindingsBySource = getStatBindingsBySource();
+  hydrateRemoteBindings(getStatBindingsBySource(), "is-stat-loading", "statFallback");
+};
 
-  bindingsBySource.forEach(async (bindings, source) => {
-    const sourceConfig = statSourceConfigs[source];
+const hydrateRemoteProducts = () => {
+  if (productValueNodes.length === 0) {
+    return;
+  }
 
-    if (!sourceConfig) {
-      return;
-    }
-
-    const cachedSnapshot = readStatCache(sourceConfig.cacheKey);
-
-    if (cachedSnapshot?.data) {
-      applyStatSnapshot(bindings, cachedSnapshot.data);
-    }
-
-    setStatLoadingState(bindings, true);
-
-    try {
-      const response = await fetch(sourceConfig.endpoint, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
-      }
-
-      const payload = await response.json();
-      const normalizedSnapshot = sourceConfig.normalize(payload);
-
-      if (!normalizedSnapshot) {
-        throw new Error("API payload did not produce a valid stat snapshot");
-      }
-
-      applyStatSnapshot(bindings, normalizedSnapshot);
-      writeStatCache(sourceConfig.cacheKey, normalizedSnapshot);
-    } catch {
-      bindings.forEach(({ node }) => {
-        if (!node.textContent?.trim()) {
-          node.textContent = node.dataset.statFallback || "";
-        }
-      });
-    } finally {
-      setStatLoadingState(bindings, false);
-    }
-  });
+  hydrateRemoteBindings(getProductBindingsBySource(), "is-product-loading", "productFallback");
 };
 
 const openMenu = () => {
@@ -274,6 +397,7 @@ menuLinks.forEach((link) => {
 });
 
 hydrateRemoteStats();
+hydrateRemoteProducts();
 
 window.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
