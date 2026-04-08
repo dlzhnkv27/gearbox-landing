@@ -16,6 +16,8 @@ export const mobileNavigation = [
 
 export const hero = {
   image: "/assets/hero/hero-cityscape@2x.avif",
+  imageMobile: "/assets/hero/hero-cityscape-mobile@2x.avif",
+  imageMobileFallback: "/assets/hero/hero-cityscape-mobile@2x.png",
   title: "Tokenisation Lending Stack",
   description:
     "Real-World Assets need Real-World Lending. Gearbox provides institutional credit infrastructure: margin, prime brokerage, portfolio loans.",
