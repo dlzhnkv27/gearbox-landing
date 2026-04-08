@@ -4,18 +4,26 @@ const { hero } = Astro.props;
 
 <section class="hero-card" style={`--hero-mask-image: url("${hero.image}")`}>
   <div class="hero-overhang" aria-hidden="true">
-    <img class="hero-image hero-image-overhang" src={hero.image} alt="" width="2800" height="1546" />
+    <picture class="hero-image hero-image-overhang">
+      <source media="(max-width: 767px)" srcset={hero.imageMobile} type="image/avif" />
+      <source media="(max-width: 767px)" srcset={hero.imageMobileFallback} type="image/png" />
+      <img src={hero.image} alt="" width="2800" height="1546" />
+    </picture>
     <div class="hero-overlay hero-overlay-overhang"></div>
   </div>
   <div class="hero-surface" aria-hidden="true">
-    <img class="hero-image hero-image-base" src={hero.image} alt="" width="2800" height="1546" />
+    <picture class="hero-image hero-image-base">
+      <source media="(max-width: 767px)" srcset={hero.imageMobile} type="image/avif" />
+      <source media="(max-width: 767px)" srcset={hero.imageMobileFallback} type="image/png" />
+      <img src={hero.image} alt="" width="2800" height="1546" />
+    </picture>
     <div class="hero-overlay hero-overlay-surface"></div>
     <div class="hero-shade"></div>
   </div>
   <div class="hero-copy">
     <div class="hero-copy-inner">
-      <h1>{hero.title}</h1>
-      <p>{hero.description}</p>
+      <h1><span>{hero.title}</span></h1>
+      <p><span>{hero.description}</span></p>
     </div>
   </div>
 </section>
