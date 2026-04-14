@@ -46,28 +46,28 @@ export const constraintsSection = {
       text: "Regulatory and KYC requirements",
       number: "01",
       body:
-        "Gearbox segregated accounts function as standard wallets, meaning token-level whitelists and transfer restrictions apply natively. The absence of wrappers or synthetic representations ensures that issuer-side compliance controls cannot be circumvented.",
+        "Segregated accounts act as standard wallets, enforcing token whitelists and transfer rules natively — no wrappers, no bypass of issuer compliance.",
     },
     {
       className: "constraint-violet",
       text: "Custom Deposit and Redemption mechanics",
       number: "02",
       body:
-        "Rather than requiring tokenised securities to conform to standardised execution and settlement flows, Gearbox adapts to each asset's underlying mechanics — delivering the experience of a simple wallet with built-in credit.",
+        "Adapts to each asset's native flows instead of forcing standards — simple wallet UX with embedded credit.",
     },
     {
       className: "constraint-green",
       text: "Off-chain financial logic from issuers",
       number: "03",
       body:
-        "Gearbox treats assets as more than ERC-20 tokens. Tokenised securities can carry complex properties — account-specific permissions, time-bound lifecycle states, transfer restrictions — enabling bespoke credit and risk logic tailored to each instrument.",
+        "Supports complex asset rules (permissions, lifecycle, restrictions) — enabling tailored credit and risk per instrument.",
     },
     {
       className: "constraint-gray",
       text: "Legal enforcement workflows",
       number: "04",
       body:
-        "Gearbox's modular architecture enables additional enforcement logic without rewriting core contracts. Capabilities such as per-account freezes, ownership transfers, and issuer-specific compliance actions can be deployed as lightweight modules.",
+        "Modular enforcement (freezes, transfers, compliance actions) without changing core contracts.",
     },
   ],
 };
