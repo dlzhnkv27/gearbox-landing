@@ -6,11 +6,11 @@ export const brandAssets = {
 export const navigation = [
   { href: "#products", label: "Products" },
   { href: "#security", label: "Security" },
-  { href: "#footer-links", label: "Docs" },
+  { href: "https://docs.gearbox.finance/", label: "Docs" },
 ];
 
 export const mobileNavigation = [
-  { href: "#app", label: "Go to App" },
+  { href: "https://app.gearbox.fi", label: "Open App" },
   ...navigation,
 ];
 
