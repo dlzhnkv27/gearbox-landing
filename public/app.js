@@ -1,6 +1,18 @@
 const menuToggle = document.getElementById("menu-toggle");
 const mobileMenu = document.getElementById("mobile-menu");
 const menuLinks = mobileMenu ? mobileMenu.querySelectorAll("a") : [];
+const requestDemoModal = document.getElementById("request-demo-modal");
+const requestDemoTriggers = Array.from(document.querySelectorAll("[data-open-demo-modal]"));
+const requestDemoCloseButton = requestDemoModal?.querySelector("[data-close-demo-modal]");
+const requestDemoForm = requestDemoModal?.querySelector("[data-request-demo-form]");
+const requestDemoSubmitLabel = requestDemoModal?.querySelector("[data-demo-submit-label]");
+const requestDemoStatus = requestDemoModal?.querySelector("[data-demo-form-status]");
+const requestDemoFormPanel = requestDemoModal?.querySelector('[data-demo-modal-panel="form"]');
+const requestDemoSuccessPanel = requestDemoModal?.querySelector('[data-demo-modal-panel="success"]');
+const requestDemoSuccessHeading = requestDemoSuccessPanel?.querySelector("h2");
+const requestDemoFields = requestDemoForm
+  ? Array.from(requestDemoForm.querySelectorAll("[data-demo-field]"))
+  : [];
 const heroCard = document.querySelector(".hero-card");
 const constraintLists = Array.from(document.querySelectorAll(".constraint-list"));
 const statValueNodes = Array.from(document.querySelectorAll("[data-stat-key]"));
@@ -8,6 +20,9 @@ const productValueNodes = Array.from(document.querySelectorAll("[data-product-ke
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let heroShadeFrame = 0;
 const pendingRemoteSnapshots = new Map();
+let activeDemoTrigger = null;
+let resetDemoFormOnClose = false;
+let hasAttemptedRequestDemoSubmit = false;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const toFiniteNumber = (value) => {
@@ -81,6 +96,149 @@ const closeMenu = () => {
   menuToggle.setAttribute("aria-label", "Open menu");
   mobileMenu.hidden = true;
   document.body.classList.remove("menu-open");
+};
+
+const resetRequestDemoPanels = () => {
+  if (requestDemoFormPanel) {
+    requestDemoFormPanel.hidden = false;
+  }
+
+  if (requestDemoSuccessPanel) {
+    requestDemoSuccessPanel.hidden = true;
+  }
+
+  if (requestDemoStatus) {
+    requestDemoStatus.hidden = true;
+    requestDemoStatus.textContent = "";
+  }
+};
+
+const setRequestDemoFieldError = (field, message = "") => {
+  const fieldWrapper = field.closest(".request-demo-field");
+  const errorNode = fieldWrapper?.querySelector("[data-field-error]");
+
+  if (!fieldWrapper || !errorNode) {
+    return;
+  }
+
+  const hasError = Boolean(message);
+
+  fieldWrapper.dataset.invalid = hasError ? "true" : "false";
+  field.toggleAttribute("aria-invalid", hasError);
+  errorNode.hidden = !hasError;
+  errorNode.textContent = message;
+};
+
+const validateRequestDemoField = (field) => {
+  const value = field.value.trim();
+  let message = "";
+
+  if (field.required && !value) {
+    message = field.dataset.errorRequired || "This field is required.";
+  } else if (field.type === "email" && value && !field.validity.valid) {
+    message = field.dataset.errorEmail || "Enter a valid email address.";
+  }
+
+  setRequestDemoFieldError(field, message);
+  return !message;
+};
+
+const validateRequestDemoForm = () => {
+  if (!requestDemoFields.length) {
+    return true;
+  }
+
+  let firstInvalidField = null;
+  const isValid = requestDemoFields.every((field) => {
+    const fieldIsValid = validateRequestDemoField(field);
+
+    if (!fieldIsValid && !firstInvalidField) {
+      firstInvalidField = field;
+    }
+
+    return fieldIsValid;
+  });
+
+  if (firstInvalidField) {
+    firstInvalidField.focus();
+  }
+
+  return isValid;
+};
+
+const resetRequestDemoFieldErrors = () => {
+  requestDemoFields.forEach((field) => setRequestDemoFieldError(field));
+};
+
+const resetRequestDemoFormState = () => {
+  if (requestDemoForm) {
+    requestDemoForm.reset();
+    requestDemoForm.removeAttribute("aria-busy");
+  }
+
+  hasAttemptedRequestDemoSubmit = false;
+  resetRequestDemoFieldErrors();
+  resetRequestDemoPanels();
+
+  if (requestDemoSubmitLabel) {
+    requestDemoSubmitLabel.textContent = "Send";
+  }
+};
+
+const setRequestDemoSubmitting = (isSubmitting) => {
+  if (requestDemoForm) {
+    requestDemoForm.setAttribute("aria-busy", isSubmitting ? "true" : "false");
+  }
+
+  if (requestDemoSubmitLabel) {
+    requestDemoSubmitLabel.textContent = isSubmitting ? "Sending..." : "Send";
+  }
+
+  const submitButton = requestDemoForm?.querySelector('button[type="submit"]');
+
+  if (submitButton) {
+    submitButton.disabled = isSubmitting;
+  }
+};
+
+const showRequestDemoSuccess = () => {
+  if (requestDemoFormPanel) {
+    requestDemoFormPanel.hidden = true;
+  }
+
+  if (requestDemoSuccessPanel) {
+    requestDemoSuccessPanel.hidden = false;
+  }
+
+  if (requestDemoSuccessHeading) {
+    requestDemoSuccessHeading.focus();
+  }
+};
+
+const openRequestDemoModal = (trigger) => {
+  if (!requestDemoModal || requestDemoModal.open) {
+    return;
+  }
+
+  closeMenu();
+  activeDemoTrigger = trigger;
+  requestDemoModal.showModal();
+  document.body.classList.add("demo-modal-open");
+  window.requestAnimationFrame(() => {
+    requestDemoForm?.querySelector("input, textarea")?.focus();
+  });
+};
+
+const closeRequestDemoModal = () => {
+  if (!requestDemoModal?.open) {
+    return;
+  }
+
+  requestDemoModal.close();
+};
+
+const isPlaceholderRequestDemoAction = (action) => {
+  return /your-form-id|placeholder/i.test(action);
 };
 
 const remoteFormatters = {
@@ -394,6 +552,75 @@ if (menuToggle && mobileMenu) {
 
 menuLinks.forEach((link) => {
   link.addEventListener("click", closeMenu);
+});
+
+requestDemoTriggers.forEach((trigger) => {
+  trigger.addEventListener("click", () => {
+    openRequestDemoModal(trigger);
+  });
+});
+
+requestDemoCloseButton?.addEventListener("click", closeRequestDemoModal);
+
+requestDemoModal?.addEventListener("close", () => {
+  document.body.classList.remove("demo-modal-open");
+
+  if (resetDemoFormOnClose) {
+    resetRequestDemoFormState();
+    resetDemoFormOnClose = false;
+  }
+
+  activeDemoTrigger?.focus?.();
+  activeDemoTrigger = null;
+});
+
+requestDemoFields.forEach((field) => {
+  field.addEventListener("input", () => {
+    if (hasAttemptedRequestDemoSubmit) {
+      validateRequestDemoField(field);
+    }
+  });
+});
+
+requestDemoForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  hasAttemptedRequestDemoSubmit = true;
+  resetRequestDemoPanels();
+
+  if (!validateRequestDemoForm()) {
+    return;
+  }
+
+  setRequestDemoSubmitting(true);
+
+  try {
+    if (isPlaceholderRequestDemoAction(requestDemoForm.action)) {
+      await new Promise((resolve) => window.setTimeout(resolve, 400));
+    } else {
+      const response = await fetch(requestDemoForm.action, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: new FormData(requestDemoForm),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+    }
+
+    resetDemoFormOnClose = true;
+    showRequestDemoSuccess();
+  } catch {
+    if (requestDemoStatus) {
+      requestDemoStatus.hidden = false;
+      requestDemoStatus.textContent =
+        "Something went wrong. Please try again or book a short call with us.";
+    }
+  } finally {
+    setRequestDemoSubmitting(false);
+  }
 });
 
 hydrateRemoteStats();

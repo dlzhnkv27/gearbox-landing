@@ -8,23 +8,40 @@ const {
   arrow = false,
   lightArrow = false,
   className = "",
+  openDemoModal = false,
+  type = "button",
 } = Astro.props;
 
 const resolvedSize = size === "m" || size === "l" ? size : small ? "m" : "l";
+const buttonClasses = [
+  "button",
+  `button-${variant}`,
+  `button-size-${resolvedSize}`,
+  arrow && "button-has-arrow",
+  className,
+];
 ---
 
-<a
-  class:list={[
-    "button",
-    `button-${variant}`,
-    `button-size-${resolvedSize}`,
-    arrow && "button-has-arrow",
-    className,
-  ]}
-  href={href}
->
-  <span>{label}</span>
-  {arrow && (
-    <span class:list={["button-arrow", lightArrow && "button-arrow-light"]} aria-hidden="true"></span>
-  )}
-</a>
+{
+  openDemoModal ? (
+    <button class:list={buttonClasses} type={type} data-open-demo-modal>
+      <span>{label}</span>
+      {arrow && (
+        <span
+          class:list={["button-arrow", lightArrow && "button-arrow-light"]}
+          aria-hidden="true"
+        ></span>
+      )}
+    </button>
+  ) : (
+    <a class:list={buttonClasses} href={href}>
+      <span>{label}</span>
+      {arrow && (
+        <span
+          class:list={["button-arrow", lightArrow && "button-arrow-light"]}
+          aria-hidden="true"
+        ></span>
+      )}
+    </a>
+  )
+}

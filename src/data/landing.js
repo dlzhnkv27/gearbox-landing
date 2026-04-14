@@ -6,13 +6,18 @@ export const brandAssets = {
 export const navigation = [
   { href: "#products", label: "Products" },
   { href: "#security", label: "Security" },
-  { href: "#footer-links", label: "Docs" },
+  { href: "https://docs.gearbox.finance/", label: "Docs" },
 ];
 
 export const mobileNavigation = [
-  { href: "#app", label: "Go to App" },
+  { href: "https://app.gearbox.fi", label: "Open App" },
   ...navigation,
 ];
+
+export const requestDemoModal = {
+  formAction: "https://formspree.io/f/your-form-id",
+  calendlyHref: "https://calendly.com/your-team/short-call",
+};
 
 export const hero = {
   image: "/assets/hero/hero-cityscape@2x.avif",
@@ -46,28 +51,28 @@ export const constraintsSection = {
       text: "Regulatory and KYC requirements",
       number: "01",
       body:
-        "Gearbox segregated accounts function as standard wallets, meaning token-level whitelists and transfer restrictions apply natively. The absence of wrappers or synthetic representations ensures that issuer-side compliance controls cannot be circumvented.",
+        "Segregated accounts act as standard wallets, enforcing token whitelists and transfer rules natively — no wrappers, no bypass of issuer compliance.",
     },
     {
       className: "constraint-violet",
       text: "Custom Deposit and Redemption mechanics",
       number: "02",
       body:
-        "Rather than requiring tokenised securities to conform to standardised execution and settlement flows, Gearbox adapts to each asset's underlying mechanics — delivering the experience of a simple wallet with built-in credit.",
+        "Adapts to each asset's native flows instead of forcing standards — simple wallet UX with embedded credit.",
     },
     {
       className: "constraint-green",
       text: "Off-chain financial logic from issuers",
       number: "03",
       body:
-        "Gearbox treats assets as more than ERC-20 tokens. Tokenised securities can carry complex properties — account-specific permissions, time-bound lifecycle states, transfer restrictions — enabling bespoke credit and risk logic tailored to each instrument.",
+        "Supports complex asset rules (permissions, lifecycle, restrictions) — enabling tailored credit and risk per instrument.",
     },
     {
       className: "constraint-gray",
       text: "Legal enforcement workflows",
       number: "04",
       body:
-        "Gearbox's modular architecture enables additional enforcement logic without rewriting core contracts. Capabilities such as per-account freezes, ownership transfers, and issuer-specific compliance actions can be deployed as lightweight modules.",
+        "Modular enforcement (freezes, transfers, compliance actions) without changing core contracts.",
     },
   ],
 };
@@ -172,11 +177,13 @@ export const demoSection = {
   description:
     "Ready to explore how our protocol can power your next move in DeFi? Book a personalized demo and discover what's possible - from integration to launch.",
   ctaHref: "#footer-links",
+  ctaOpensDemoModal: true,
   ctaLabel: "Request a Demo",
 };
 
 export const partnersSection = {
   title: "Trusted Partners",
+  showTestimonials: false,
   partners: [
     {
       name: "Pendle",
@@ -226,43 +233,33 @@ export const productsSection = {
       className: "product-card-blue",
       title: "Long-term Savings",
       description: "Professionally managed passive yield for institutional allocators",
-      rateValue: "8.5%",
-      rateApiSource: "stakingStats",
-      rateApiField: "savingsMaxApy",
-      rateApiFormat: "percentFixed1",
+      rateValue: "Up to 14%",
       rateLabel: "APY",
       metrics: [
         {
-          label: "Total Supply",
-          value: "$125M",
-          apiSource: "stakingStats",
-          apiField: "savingsTotalSupply",
-          apiFormat: "currencyCompact",
+          label: "Cumulative Supply",
+          value: "$3.7B",
         },
         {
-          label: "Utilization Rate",
-          value: "78.3%",
-          apiSource: "stakingStats",
-          apiField: "savingsUtilizationRate",
-          apiFormat: "percentFixed1",
+          label: "Av. Utilization Rate",
+          value: "80%",
         },
       ],
       assetsLabel: "Supported Assets",
       assets: [
         {
           type: "image",
-          src: "/assets/tokens/product-asset-1.svg",
-          alt: "Supported asset 1",
+          src: "/assets/tokens/product-asset-6.svg",
+          alt: "ETH",
         },
         {
           type: "image",
-          src: "/assets/tokens/product-asset-2.svg",
-          alt: "Supported asset 2",
+          src: "/assets/tokens/product-asset-5.svg",
+          alt: "BTC",
         },
         {
-          type: "image",
-          src: "/assets/tokens/product-asset-3.svg",
-          alt: "Supported asset 3",
+          type: "chip",
+          label: "and more",
         },
       ],
       ctaLabel: "Start Earning",
@@ -278,17 +275,11 @@ export const productsSection = {
       metrics: [
         {
           label: "Opened Accounts",
-          value: "5,891",
-          apiSource: "creditManagersAllNetworks",
-          apiField: "primeOpenedAccounts",
-          apiFormat: "integerGrouped",
+          value: "10K+",
         },
         {
-          label: "Total Borrowed",
-          value: "$89M",
-          apiSource: "creditManagersAllNetworks",
-          apiField: "primeTotalBorrowed",
-          apiFormat: "currencyCompact",
+          label: "All-time Borrowed",
+          value: "$1.5B",
         },
       ],
       assetsLabel: "Collateral Types",
@@ -340,7 +331,14 @@ export const footerSection = {
   background: "/assets/footer/footer-background.jpg",
   title: "Compliant on-chain credit for tokenised assets",
   actions: [
-    { label: "Request a Demo", href: "#demo", variant: "light", size: "l", arrow: true },
+    {
+      label: "Request a Demo",
+      href: "#demo",
+      variant: "light",
+      size: "l",
+      arrow: true,
+      openDemoModal: true,
+    },
   ],
   columns: [
     {
@@ -348,38 +346,36 @@ export const footerSection = {
       links: [
         { label: "Savings Account", href: "#products" },
         { label: "Credit Accounts", href: "#products" },
-        { label: "Credit Wallet", href: "#products" },
       ],
     },
     {
       title: "Developers",
       links: [
-        { label: "Documentation", href: "#footer-links" },
-        { label: "API Reference", href: "#footer-links" },
-        { label: "GitHub", href: "#footer-links" },
+        { label: "Documentation", href: "https://docs.gearbox.finance/" },
+        { label: "SDK Reference", href: "https://docs.gearbox.finance/dev" },
+        { label: "Github", href: "https://github.com/Gearbox-protocol" },
       ],
     },
     {
       title: "Company",
       links: [
-        { label: "About", href: "#footer-links" },
-        { label: "Blog", href: "#footer-links" },
-        { label: "Careers", href: "#footer-links" },
+        { label: "About", href: "https://docs.gearbox.finance/about-gearbox" },
+        { label: "Blog", href: "https://blog.gearbox.finance/" },
       ],
     },
     {
       title: "Legal",
       links: [
-        { label: "Terms of Service", href: "#footer-links" },
-        { label: "Privacy Policy", href: "#footer-links" },
-        { label: "Security", href: "#security" },
+        { label: "Terms of Service", href: "https://gearbox.finance/terms" },
+        { label: "Privacy", href: "https://gearbox.finance/privacy" },
+        { label: "Risks", href: "https://gearbox.finance/risks" },
       ],
     },
   ],
   copyright: "© 2026 Gearbox Protocol. All rights reserved.",
   socials: [
-    { label: "Twitter", href: "#footer-links" },
-    { label: "Discord", href: "#footer-links" },
-    { label: "Telegram", href: "#footer-links" },
+    { label: "Twitter", href: "https://x.com/GearboxProtocol" },
+    { label: "Discord", href: "https://discord.com/invite/gearbox" },
+    { label: "Telegram", href: "https://t.me/GearboxProtocol" },
   ],
 };

@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css";
+import RequestDemoModal from "../components/ui/RequestDemoModal.astro";
+import { requestDemoModal } from "../data/landing.js";
 
 const { title = "Gearbox Landing" } = Astro.props;
 ---
@@ -19,6 +21,7 @@ const { title = "Gearbox Landing" } = Astro.props;
   </head>
   <body>
     <slot />
+    <RequestDemoModal config={requestDemoModal} />
     <script src="/app.js" defer></script>
   </body>
 </html>

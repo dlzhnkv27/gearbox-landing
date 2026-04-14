@@ -1,0 +1,108 @@
+---
+const { config } = Astro.props;
+---
+
+<dialog
+  id="request-demo-modal"
+  class="request-demo-modal"
+  aria-labelledby="request-demo-title"
+>
+  <div class="request-demo-surface">
+    <button
+      type="button"
+      class="request-demo-close"
+      data-close-demo-modal
+      aria-label="Close request demo form"
+    >
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+
+    <div class="request-demo-panel" data-demo-modal-panel="form">
+      <h2 id="request-demo-title">Request Demo</h2>
+
+      <form
+        class="request-demo-form"
+        data-request-demo-form
+        method="post"
+        action={config.formAction}
+        novalidate
+      >
+        <div class="request-demo-field">
+          <label class="sr-only" for="request-demo-name">Name</label>
+          <input
+            id="request-demo-name"
+            name="name"
+            type="text"
+            placeholder="Name"
+            autocomplete="name"
+            required
+            data-demo-field
+            data-error-required="Enter your name."
+          />
+          <p class="request-demo-field-error" data-field-error aria-live="polite" hidden></p>
+        </div>
+
+        <div class="request-demo-field">
+          <label class="sr-only" for="request-demo-email">Email</label>
+          <input
+            id="request-demo-email"
+            name="email"
+            type="email"
+            placeholder="Email"
+            autocomplete="email"
+            required
+            data-demo-field
+            data-error-required="Enter your email."
+            data-error-email="Enter a valid email address."
+          />
+          <p class="request-demo-field-error" data-field-error aria-live="polite" hidden></p>
+        </div>
+
+        <div class="request-demo-field">
+          <label class="sr-only" for="request-demo-organization">Organization</label>
+          <input
+            id="request-demo-organization"
+            name="organization"
+            type="text"
+            placeholder="Organization"
+            autocomplete="organization"
+            data-demo-field
+          />
+          <p class="request-demo-field-error" data-field-error aria-live="polite" hidden></p>
+        </div>
+
+        <div class="request-demo-field">
+          <label class="sr-only" for="request-demo-message">How can we help you?</label>
+          <textarea
+            id="request-demo-message"
+            name="message"
+            placeholder="How can we help you?"
+            data-demo-field
+          ></textarea>
+          <p class="request-demo-field-error" data-field-error aria-live="polite" hidden></p>
+        </div>
+
+        <p class="request-demo-status" data-demo-form-status role="status" aria-live="polite" hidden></p>
+
+        <button class="button button-dark button-size-l request-demo-submit" type="submit">
+          <span data-demo-submit-label>Send</span>
+        </button>
+      </form>
+
+      <a
+        class="request-demo-calendly"
+        href={config.calendlyHref}
+        target="_blank"
+        rel="noreferrer"
+      >
+        or book a short call with us
+      </a>
+    </div>
+
+    <div class="request-demo-panel" data-demo-modal-panel="success" hidden>
+      <h2 tabindex="-1">Request sent</h2>
+      <p>Thanks. We’ll get back to you shortly.</p>
+    </div>
+  </div>
+</dialog>
