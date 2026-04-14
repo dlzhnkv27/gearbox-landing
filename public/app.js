@@ -22,6 +22,7 @@ let heroShadeFrame = 0;
 const pendingRemoteSnapshots = new Map();
 let activeDemoTrigger = null;
 let resetDemoFormOnClose = false;
+let hasAttemptedRequestDemoSubmit = false;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const toFiniteNumber = (value) => {
@@ -175,6 +176,7 @@ const resetRequestDemoFormState = () => {
     requestDemoForm.removeAttribute("aria-busy");
   }
 
+  hasAttemptedRequestDemoSubmit = false;
   resetRequestDemoFieldErrors();
   resetRequestDemoPanels();
 
@@ -573,12 +575,8 @@ requestDemoModal?.addEventListener("close", () => {
 });
 
 requestDemoFields.forEach((field) => {
-  field.addEventListener("blur", () => {
-    validateRequestDemoField(field);
-  });
-
   field.addEventListener("input", () => {
-    if (field.getAttribute("aria-invalid") === "true") {
+    if (hasAttemptedRequestDemoSubmit) {
       validateRequestDemoField(field);
     }
   });
@@ -586,6 +584,7 @@ requestDemoFields.forEach((field) => {
 
 requestDemoForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
+  hasAttemptedRequestDemoSubmit = true;
   resetRequestDemoPanels();
 
   if (!validateRequestDemoForm()) {

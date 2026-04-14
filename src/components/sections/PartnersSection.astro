@@ -28,9 +28,13 @@ const showTestimonials = content.showTestimonials !== false;
     </div>
   </div>
 
-  <div class="testimonials-grid" hidden={!showTestimonials}>
-    {content.testimonials.map((testimonial) => (
-      <TestimonialCard testimonial={testimonial} />
-    ))}
-  </div>
+  {
+    showTestimonials && (
+      <div class="testimonials-grid">
+        {content.testimonials.map((testimonial) => (
+          <TestimonialCard testimonial={testimonial} />
+        ))}
+      </div>
+    )
+  }
 </section>

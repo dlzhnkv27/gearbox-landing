@@ -434,13 +434,21 @@ body.demo-modal-open {
 }
 
 .request-demo-modal {
-  width: min(calc(100vw - 48px), 640px);
-  max-width: 640px;
-  max-height: calc(100svh - 48px);
-  padding: 0;
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  min-height: 100svh;
+  margin: 0;
+  padding: 24px;
+  box-sizing: border-box;
   border: 0;
   background: transparent;
   color: var(--text);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .request-demo-modal::backdrop {
@@ -448,14 +456,18 @@ body.demo-modal-open {
 }
 
 .request-demo-modal[open] {
-  display: block;
+  display: grid;
+  justify-items: center;
+  align-items: start;
 }
 
 .request-demo-surface {
   position: relative;
+  width: min(100%, 640px);
   display: grid;
   gap: 24px;
   padding: 48px;
+  margin: auto 0;
   border-radius: 56px;
   background: #fff;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.16);
@@ -464,6 +476,12 @@ body.demo-modal-open {
 .request-demo-panel {
   display: grid;
   gap: 24px;
+}
+
+.request-demo-panel[hidden],
+.request-demo-field-error[hidden],
+.request-demo-status[hidden] {
+  display: none;
 }
 
 .request-demo-panel h2 {
@@ -493,6 +511,12 @@ body.demo-modal-open {
   border-radius: 50%;
   background: #fff;
   color: var(--text);
+  cursor: pointer;
+  transition: border-color 140ms ease;
+}
+
+.request-demo-close:hover {
+  border-color: #bdbdbd;
 }
 
 .request-demo-close span {
@@ -553,7 +577,7 @@ body.demo-modal-open {
 .request-demo-field textarea:focus-visible {
   outline: none;
   border-color: var(--gray-950);
-  box-shadow: 0 0 0 3px rgba(13, 13, 13, 0.08);
+  box-shadow: none;
 }
 
 .request-demo-field[data-invalid="true"] input,
@@ -590,6 +614,7 @@ body.demo-modal-open {
 
 .request-demo-calendly {
   width: fit-content;
+  margin: 0 auto;
   color: #000;
   text-decoration: underline;
   text-underline-offset: 0.18em;
@@ -1957,8 +1982,7 @@ body.demo-modal-open {
   }
 
   .request-demo-modal {
-    width: min(calc(100vw - 32px), 560px);
-    max-height: calc(100svh - 32px);
+    padding: 16px;
   }
 
   .request-demo-surface {
@@ -2203,9 +2227,7 @@ body.demo-modal-open {
   }
 
   .request-demo-modal {
-    width: calc(100vw - 16px);
-    max-width: none;
-    max-height: calc(100svh - 16px);
+    padding: 8px;
   }
 
   .request-demo-surface {
