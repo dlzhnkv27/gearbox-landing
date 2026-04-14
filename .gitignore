@@ -2,3 +2,17 @@ node_modules/
 dist/
 .astro/
 .DS_Store
+
+# AI / LLM editor instructions
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+CURSOR.md
+COPILOT.md
+.cursorrules
+.cursor/
+.claude/
+.llm/
+.ai/
+.windsurf/
+.github/copilot-instructions.md
