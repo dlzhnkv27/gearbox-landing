@@ -14,6 +14,11 @@ export const mobileNavigation = [
   ...navigation,
 ];
 
+export const requestDemoModal = {
+  formAction: "https://formspree.io/f/your-form-id",
+  calendlyHref: "https://calendly.com/your-team/short-call",
+};
+
 export const hero = {
   image: "/assets/hero/hero-cityscape@2x.avif",
   imageMobile: "/assets/hero/hero-cityscape-mobile@2x.avif",
@@ -172,6 +177,7 @@ export const demoSection = {
   description:
     "Ready to explore how our protocol can power your next move in DeFi? Book a personalized demo and discover what's possible - from integration to launch.",
   ctaHref: "#footer-links",
+  ctaOpensDemoModal: true,
   ctaLabel: "Request a Demo",
 };
 
@@ -325,7 +331,14 @@ export const footerSection = {
   background: "/assets/footer/footer-background.jpg",
   title: "Compliant on-chain credit for tokenised assets",
   actions: [
-    { label: "Request a Demo", href: "#demo", variant: "light", size: "l", arrow: true },
+    {
+      label: "Request a Demo",
+      href: "#demo",
+      variant: "light",
+      size: "l",
+      arrow: true,
+      openDemoModal: true,
+    },
   ],
   columns: [
     {
