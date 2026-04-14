@@ -333,38 +333,36 @@ export const footerSection = {
       links: [
         { label: "Savings Account", href: "#products" },
         { label: "Credit Accounts", href: "#products" },
-        { label: "Credit Wallet", href: "#products" },
       ],
     },
     {
       title: "Developers",
       links: [
-        { label: "Documentation", href: "#footer-links" },
-        { label: "API Reference", href: "#footer-links" },
-        { label: "GitHub", href: "#footer-links" },
+        { label: "Documentation", href: "https://docs.gearbox.finance/" },
+        { label: "SDK Reference", href: "https://docs.gearbox.finance/dev" },
+        { label: "Github", href: "https://github.com/Gearbox-protocol" },
       ],
     },
     {
       title: "Company",
       links: [
-        { label: "About", href: "#footer-links" },
-        { label: "Blog", href: "#footer-links" },
-        { label: "Careers", href: "#footer-links" },
+        { label: "About", href: "https://docs.gearbox.finance/about-gearbox" },
+        { label: "Blog", href: "https://blog.gearbox.finance/" },
       ],
     },
     {
       title: "Legal",
       links: [
-        { label: "Terms of Service", href: "#footer-links" },
-        { label: "Privacy Policy", href: "#footer-links" },
-        { label: "Security", href: "#security" },
+        { label: "Terms of Service", href: "https://gearbox.finance/terms" },
+        { label: "Privacy", href: "https://gearbox.finance/privacy" },
+        { label: "Risks", href: "https://gearbox.finance/risks" },
       ],
     },
   ],
   copyright: "© 2026 Gearbox Protocol. All rights reserved.",
   socials: [
-    { label: "Twitter", href: "#footer-links" },
-    { label: "Discord", href: "#footer-links" },
-    { label: "Telegram", href: "#footer-links" },
+    { label: "Twitter", href: "https://x.com/GearboxProtocol" },
+    { label: "Discord", href: "https://discord.com/invite/gearbox" },
+    { label: "Telegram", href: "https://t.me/GearboxProtocol" },
   ],
 };
