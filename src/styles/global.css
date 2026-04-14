@@ -468,7 +468,7 @@ body.demo-modal-open {
   gap: 24px;
   padding: 48px;
   margin: auto 0;
-  border-radius: 56px;
+  border-radius: 32px;
   background: #fff;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.16);
 }
@@ -552,6 +552,7 @@ body.demo-modal-open {
   border-radius: 8px;
   background: #fff;
   color: var(--text);
+  font: inherit;
   transition:
     border-color 140ms ease,
     box-shadow 140ms ease;
@@ -571,6 +572,7 @@ body.demo-modal-open {
 .request-demo-field input::placeholder,
 .request-demo-field textarea::placeholder {
   color: var(--gray-500);
+  font-size: 18px;
 }
 
 .request-demo-field input:focus-visible,
@@ -1987,7 +1989,7 @@ body.demo-modal-open {
 
   .request-demo-surface {
     padding: 32px;
-    border-radius: 40px;
+    border-radius: 32px;
   }
 
   .request-demo-close {
@@ -2233,7 +2235,7 @@ body.demo-modal-open {
   .request-demo-surface {
     gap: 20px;
     padding: 24px;
-    border-radius: 28px;
+    border-radius: 32px;
   }
 
   .request-demo-panel,
