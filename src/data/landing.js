@@ -177,6 +177,7 @@ export const demoSection = {
 
 export const partnersSection = {
   title: "Trusted Partners",
+  showTestimonials: false,
   partners: [
     {
       name: "Pendle",
